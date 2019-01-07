@@ -1,47 +1,33 @@
 package com.codeoftheweb.salvo;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Player {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
+    private Date date;
 
-    private String playerUsername;
-    private String playerEmail;
-
-
-    public Player(){
-
-    }
-
-    public Player(String player, String email){
-        this.playerUsername = player;
-        this.playerEmail = email;
-    }
-
-    @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
-
-    public String getPlayerUsername() {
-        return playerUsername;
+    public Game (){
+        this.date = new Date();
     }
 
-    public void setPlayerUsername(String playerUsername) {
-        this.playerUsername = playerUsername;
+    public Date getDate() {
+        return date;
     }
 
-    public String getPlayerEmail() {
-        return playerEmail;
-    }
-
-    public void setPlayerEmail(String playerEmail) {
-        this.playerEmail = playerEmail;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public long getId() {
@@ -60,3 +46,5 @@ public class Player {
         this.gamePlayers = gamePlayers;
     }
 }
+
+
