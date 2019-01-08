@@ -24,6 +24,7 @@ public class SalvoApplication {
 			Game g1 = new Game ();
 			Game g2 = new Game ();
 			Game g3 = new Game ();
+			Game g4 = new Game ();
 
 
 			PlayerRepo.save(p1);
@@ -35,11 +36,12 @@ public class SalvoApplication {
 			GameRepo.save(g1);
 			GameRepo.save(g2);
 			GameRepo.save(g3);
+			GameRepo.save(g4);
 
 			GamePlayerRepo.save(new GamePlayer(g1, p1));
 			GamePlayerRepo.save(new GamePlayer(g1, p2));
 			GamePlayerRepo.save(new GamePlayer(g2, p3));
-			GamePlayerRepo.save(new GamePlayer(g2, p4));	
+			GamePlayerRepo.save(new GamePlayer(g2, p4));
 
 
 
