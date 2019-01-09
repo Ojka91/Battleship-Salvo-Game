@@ -42,6 +42,11 @@ public class SalvoApplication {
 			GamePlayerRepo.save(new GamePlayer(g1, p2));
 			GamePlayerRepo.save(new GamePlayer(g2, p3));
 			GamePlayerRepo.save(new GamePlayer(g2, p4));
+			GamePlayerRepo.save(new GamePlayer(g3, p4));
+			GamePlayerRepo.save(new GamePlayer(g3, p1));
+			GamePlayerRepo.save(new GamePlayer(g4, p3));
+
+
 
 
 
