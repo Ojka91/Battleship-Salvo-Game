@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class SalvoApplication {
 
@@ -13,7 +15,7 @@ public class SalvoApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(PlayerRepository PlayerRepo, GameRepository GameRepo, GamePlayerRepository GamePlayerRepo) {
+	public CommandLineRunner initData(PlayerRepository PlayerRepo, GameRepository GameRepo, GamePlayerRepository GamePlayerRepo, ShipRepository shipRepo) {
 		return (args) -> {
 			// save a couple of customers
 			Player p1 = new Player ( "Jack", "example1@gmail.com");
@@ -25,7 +27,13 @@ public class SalvoApplication {
 			Game g2 = new Game ();
 			Game g3 = new Game ();
 			Game g4 = new Game ();
+			ArrayList<String> destructor = new ArrayList<String>();
+					destructor.add("h1");
+					destructor.add("h2");
+					destructor.add("h3");
 
+			Ship des = new Ship("Destructor", destructor);
+			shipRepo.save(des);
 
 			PlayerRepo.save(p1);
 			PlayerRepo.save(p2);
