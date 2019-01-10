@@ -60,7 +60,7 @@ public class GamePlayer {
         return ships;
     }
 
-    public void setShips(Set<Ship> ships) {
-        this.ships = ships;
+    public void setShips(Ship ship) {
+        this.ships.add(ship);
     }
 }

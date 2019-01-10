@@ -33,6 +33,7 @@ public class Ship {
         this.shipType = shipType;
         this.shipPosition = shipPosition;
         this.gamePlayer = gamePlayer;
+        gamePlayer.setShips(this);
     }
 
 
