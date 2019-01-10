@@ -44,6 +44,7 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", player.getId());
         dto.put("email", player.getPlayerEmail());
+        dto.put("username", player.getPlayerUsername());
         return dto;
     }
     private Map<String, Object> gamePlayerDTO(GamePlayer gamePlayer) {
@@ -53,14 +54,26 @@ public class SalvoController {
         return dto;
     }
 
+    @RequestMapping("/gamePlayer")
+    public List<GamePlayer> getGamePlayers() {
+        return gamePlayerRepository.findAll();
+    }
+
 
     @RequestMapping("/game_view/{gameId}")
-    public String getGameView(@PathVariable Long gameId){
+    public  Map<String, Object> getGameView(@PathVariable Long gameId){
 
         GamePlayer gamePlayer = gamePlayerRepository.getOne(gameId);
 
-        return gamePlayer.toString();
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id",gamePlayer.getGame().getId());
+        dto.put("created", gamePlayer.getGame().getDate());
+        dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream()
+                .map(gp -> gamePlayerDTO(gp))
+                .collect(toList()));
+        return dto;
     }
+
 
 
 }
