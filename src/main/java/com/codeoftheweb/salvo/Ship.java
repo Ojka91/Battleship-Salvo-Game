@@ -18,20 +18,21 @@ public class Ship {
     private String shipType;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="gamePlayer_id")
+    @JoinColumn(name = "gamePlayer_id")
     private GamePlayer gamePlayer;
 
     @ElementCollection
-    @Column(name="shipPosition")
+    @Column(name = "shipPosition")
     private List<String> shipPosition = new ArrayList<>();
 
-    public Ship(){
+    public Ship() {
 
     }
 
-    public Ship (String shipType, List<String> shipPosition){
+    public Ship(String shipType, List<String> shipPosition, GamePlayer gamePlayer) {
         this.shipType = shipType;
         this.shipPosition = shipPosition;
+        this.gamePlayer = gamePlayer;
     }
 
 

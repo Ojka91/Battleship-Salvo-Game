@@ -1,7 +1,7 @@
 $(function() {
 
   // display text in the output area
-  function showOutput(text) {
+  function showOutput(text) {   
     $("#output").text(text);
   }
 

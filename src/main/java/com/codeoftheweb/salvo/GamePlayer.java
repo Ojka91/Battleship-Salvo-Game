@@ -56,11 +56,11 @@ public class GamePlayer {
         this.game = game;
     }
 
-//    public Set<Ship> getShips() {
-//        return ships;
-//    }
-//
-//    public void setShips(Set<Ship> ships) {
-//        this.ships = ships;
-//    }
+    public Set<Ship> getShips() {
+        return ships;
+    }
+
+    public void setShips(Set<Ship> ships) {
+        this.ships = ships;
+    }
 }
