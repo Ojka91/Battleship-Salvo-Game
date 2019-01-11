@@ -14,7 +14,7 @@ public class Ship {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private Long id;
+    private long id;
     private String shipType;
 
     @ManyToOne(fetch = FetchType.EAGER)

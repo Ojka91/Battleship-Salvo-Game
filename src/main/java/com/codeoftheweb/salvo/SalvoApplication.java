@@ -57,27 +57,34 @@ public class SalvoApplication {
             GamePlayerRepo.save(gp7);
 
             //ships creation
-            ArrayList<String> destructor = new ArrayList<String>();
-            destructor.add("h1");
-            destructor.add("h2");
-            destructor.add("h3");
+            ArrayList<String> destructor1 = new ArrayList<String>();
+            destructor1.add("h1");
+            destructor1.add("h2");
+            destructor1.add("h3");
 
-            ArrayList<String> submarine = new ArrayList<String>();
-            destructor.add("g1");
-            destructor.add("g2");
-            destructor.add("g3");
+            ArrayList<String> destructor2 = new ArrayList<String>();
+           destructor2.add("b2");
+           destructor2.add("b3");
+           destructor2.add("b4");
 
-            ArrayList<String> patrol = new ArrayList<String>();
-            destructor.add("a1");
-            destructor.add("a2");
+            ArrayList<String> submarine1 = new ArrayList<String>();
+            submarine1.add("g1");
+            submarine1.add("g2");
+            submarine1.add("g3");
+
+            ArrayList<String> patrol1 = new ArrayList<String>();
+            patrol1.add("a1");
+            patrol1.add("a2");
 
 
-            Ship des1 = new Ship("Destructor", destructor, gp1);
-            Ship sub1 = new Ship("Submarine", submarine, gp1);
-            Ship patrol1 = new Ship("Patrol Boat", patrol, gp1);
+            Ship des1 = new Ship("Destructor", destructor1, gp1);
+            Ship sub1 = new Ship("Submarine", submarine1, gp1);
+            Ship pat1 = new Ship("Patrol Boat", patrol1, gp1);
+            Ship des2 = new Ship ("Destructor", destructor2, gp2);
             shipRepo.save(des1);
             shipRepo.save(sub1);
-            shipRepo.save(patrol1);
+            shipRepo.save(pat1);
+            shipRepo.save(des2);
 
 
         };
