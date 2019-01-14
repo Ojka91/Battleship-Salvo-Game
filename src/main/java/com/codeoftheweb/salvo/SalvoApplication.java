@@ -63,9 +63,9 @@ public class SalvoApplication {
             destructor1.add("h3");
 
             ArrayList<String> destructor2 = new ArrayList<String>();
-           destructor2.add("b2");
-           destructor2.add("b3");
-           destructor2.add("b4");
+            destructor2.add("b2");
+            destructor2.add("b3");
+            destructor2.add("b4");
 
             ArrayList<String> submarine1 = new ArrayList<String>();
             submarine1.add("g1");

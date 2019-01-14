@@ -1,0 +1,24 @@
+td{
+    width: 25px;
+    height: 25px;
+    border: 2px solid black;
+    margin:0px;
+    box-shadow: 1px 1px 0px black;    
+}
+
+  tr:nth-child(-n+1)>td { 
+    border: none;
+    background:aquamarine;
+    
+  }
+
+  td:first-child{
+      border:none;
+      background:aquamarine;
+    }
+
+
+  table {
+    display: flex;
+    border-collapse: collapse;
+}
