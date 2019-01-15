@@ -1,0 +1,159 @@
+/*setup*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'Monoton';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Monoton'), local('Monoton-Regular'), url(http://themes.googleusercontent.com/static/fonts/monoton/v4/AKI-lyzyNHXByGHeOcds_w.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'), url(http://themes.googleusercontent.com/static/fonts/iceland/v3/F6LYTZLHrG9BNYXRjU7RSw.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pacifico Regular'), local('Pacifico-Regular'), url(http://themes.googleusercontent.com/static/fonts/pacifico/v5/yunJt0R8tCvMyj_V4xSjafesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'PressStart';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Press Start 2P'), local('PressStart2P-Regular'), url(http://themes.googleusercontent.com/static/fonts/pressstart2p/v2/8Lg6LX8-ntOHUQnvQ0E7o3dD2UuwsmbX3BOp4SL_VwM.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Audiowide';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Audiowide'), local('Audiowide-Regular'), url(http://themes.googleusercontent.com/static/fonts/audiowide/v2/8XtYtNKEyyZh481XVWfVOj8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Vampiro One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Vampiro One'), local('VampiroOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/vampiroone/v3/Ho2Xld8UbQyBA8XLxF1_NYbN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}
+
+/*neeeeoooon*/
+.title {
+  text-align: center;
+  font-size: 7em;
+  margin: 20px 0 20px 0;
+  text-shadow: 1px 1px 1px black;
+}
+
+.title {
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.title {
+  font-size: 100px;
+  color: #228DFF;
+  font-family: Iceland;
+}
+
+.title:hover {
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+}
+
+.title:hover {
+  color: #ffffff;
+}
+
+
+@-webkit-keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #fff,
+      0 0 40px #228DFF,
+      0 0 70px #228DFF,
+      0 0 80px #228DFF,
+      0 0 100px #228DFF,
+      0 0 150px #228DFF;
+  }
+
+  to {
+    text-shadow: 0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #fff,
+      0 0 20px #228DFF,
+      0 0 35px #228DFF,
+      0 0 40px #228DFF,
+      0 0 50px #228DFF,
+      0 0 75px #228DFF;
+  }
+}
+
+@-moz-keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #fff,
+      0 0 40px #228DFF,
+      0 0 70px #228DFF,
+      0 0 80px #228DFF,
+      0 0 100px #228DFF,
+      0 0 150px #228DFF;
+  }
+
+  to {
+    text-shadow: 0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #fff,
+      0 0 20px #228DFF,
+      0 0 35px #228DFF,
+      0 0 40px #228DFF,
+      0 0 50px #228DFF,
+      0 0 75px #228DFF;
+  }
+}
+
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #fff,
+      0 0 40px #228DFF,
+      0 0 70px #228DFF,
+      0 0 80px #228DFF,
+      0 0 100px #228DFF,
+      0 0 150px #228DFF;
+  }
+
+  to {
+    text-shadow: 0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #fff,
+      0 0 20px #228DFF,
+      0 0 35px #228DFF,
+      0 0 40px #228DFF,
+      0 0 50px #228DFF,
+      0 0 75px #228DFF;
+  }
+}
+
+/*REEEEEEEEEEESPONSIVE*/
+@media (max-width: 650px) {
+  .title {
+    font-size: 70px;
+  }
+
+}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.c   om/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="scripts/style.css">
+    <link rel="stylesheet" href="styles/title_style.css">
     <title>Salvo Game</title>
 
 </head>
@@ -15,13 +16,14 @@
 <body>
     <div id="app">
         <header>
-           <h1>Battleship Begins!</h1>
+            <p class="title">
+                Battleship
+            </p>
         </header>
         <div class="infoContainer">
             <div class="row">
                 <div class="col-4">
-                   <p>Game info:</p>
-                   <p>{{ownerGame}} (you) vs {{opponent}}</p>
+                    <p>{{ownerGame}} (you) vs {{opponent}}</p>
                 </div>
                 <div class="col-4">
 
@@ -29,13 +31,14 @@
             </div>
         </div>
 
-
+        
         <div class="maincontainer" id="maincontainer">
-                <h3>Your Ships...</h3>
+          
+            
             <div class="owner" id="owner">
-               
-                <table class="tbOwner" id="tbOwner">
 
+                <table class="tbOwner" id="tbOwner">
+                    <caption><h3>Your Ships...</h3></caption>
                     <tr v-for="(data1,index) in numbers">
 
                         <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
@@ -49,11 +52,23 @@
 
             </div>
             <div class="opponent" id="opponent">
+                <table class="tbOwner" id="tbOwner">
+                        <caption><h3>Opponent...</h3></caption>
+                    <tr v-for="(data1,index) in numbers">
+
+                        <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
+                            <span v-if="index==0 || index2==0">{{data1 + data2}}</span>
+                        </td>
+
+                    </tr>
+
+
+                </table>
 
 
             </div>
-        </div>
-
+        
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -62,7 +77,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
     <script src="scripts/game.js"></script>
 </body>
 

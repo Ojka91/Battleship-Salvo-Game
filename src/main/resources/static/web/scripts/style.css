@@ -1,38 +1,66 @@
-  header{
+  body {
+    background-image: url(/web/styles/assets/battleshipWP.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  header {
     display: flex;
-  justify-content: center;
-}
-td {
-  width: 25px;
-  height: 25px;
-  border: 2px solid black;
-  margin: 0px;
-  box-shadow: 1px 1px 0px black;
-  text-align: center;
-}
+    justify-content: center;
+  }
 
-tr:nth-child(-n+1)>td {
-  border: none;
-  background: aquamarine;
+  td {
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    margin: 0px;
+    box-shadow: 1px 1px 0px black;
+    text-align: center;
+    background-color: hsla(197, 66%, 51%, 0.432);
 
-}
+  }
 
-td:first-child {
-  border: none;
-  background: aquamarine;
-}
+  tr:nth-child(-n+1)>td {
+    border: none;
+    background: hsla(177, 85%, 57%, 0.473);
+
+  }
+
+  td:first-child {
+    border: none;
+    background: hsla(177, 85%, 57%, 0.438);
+
+  }
 
 
-table {
-  display: flex;
-  border-collapse: collapse;
-}
+  table {
 
-.owner {
-  display: flex;
+    border-collapse: collapse;
+  }
 
-}
 
-.ship {
-  background-color: red;
-}
+
+  .ship {
+    background-color: red;
+  }
+
+  .infoContainer {
+
+    font-size: 30px;
+    color: #228DFF;
+    text-shadow: 2px 2px 2px white;
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+    background-color: hsla(192, 15%, 80%, 0.644);
+    text-align: center;
+  }
+
+  .maincontainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  caption {
+    text-align: top;
+  }
