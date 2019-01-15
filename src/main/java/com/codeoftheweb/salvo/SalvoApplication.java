@@ -58,23 +58,23 @@ public class SalvoApplication {
 
             //ships creation
             ArrayList<String> destructor1 = new ArrayList<String>();
-            destructor1.add("h1");
-            destructor1.add("h2");
-            destructor1.add("h3");
+            destructor1.add("H1");
+            destructor1.add("H2");
+            destructor1.add("H3");
 
             ArrayList<String> destructor2 = new ArrayList<String>();
-            destructor2.add("b2");
-            destructor2.add("b3");
-            destructor2.add("b4");
+            destructor2.add("B2");
+            destructor2.add("B3");
+            destructor2.add("B4");
 
             ArrayList<String> submarine1 = new ArrayList<String>();
-            submarine1.add("g1");
-            submarine1.add("g2");
-            submarine1.add("g3");
+            submarine1.add("G1");
+            submarine1.add("G2");
+            submarine1.add("G3");
 
             ArrayList<String> patrol1 = new ArrayList<String>();
-            patrol1.add("a1");
-            patrol1.add("a2");
+            patrol1.add("A1");
+            patrol1.add("A2");
 
 
             Ship des1 = new Ship("Destructor", destructor1, gp1);

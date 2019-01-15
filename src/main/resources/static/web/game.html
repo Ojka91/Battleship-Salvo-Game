@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.c   om/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="scripts/style.css">
     <title>Salvo Game</title>
@@ -15,10 +15,25 @@
 <body>
     <div id="app">
         <header>
-            <h1>Ship Locations...</h1>
+           <h1>Battleship Begins!</h1>
         </header>
+        <div class="infoContainer">
+            <div class="row">
+                <div class="col-4">
+                   <p>Game info:</p>
+                   <p>{{ownerGame}} (you) vs {{opponent}}</p>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+        </div>
+
+
         <div class="maincontainer" id="maincontainer">
+                <h3>Your Ships...</h3>
             <div class="owner" id="owner">
+               
                 <table class="tbOwner" id="tbOwner">
 
                     <tr v-for="(data1,index) in numbers">
