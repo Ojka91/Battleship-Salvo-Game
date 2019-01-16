@@ -15,7 +15,7 @@ public class SalvoApplication {
     }
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository PlayerRepo, GameRepository GameRepo, GamePlayerRepository GamePlayerRepo, ShipRepository shipRepo) {
+    public CommandLineRunner initData(PlayerRepository PlayerRepo, GameRepository GameRepo, GamePlayerRepository GamePlayerRepo, ShipRepository shipRepo, SalvoRepository salvoRepo) {
         return (args) -> {
             //players creation
             Player p1 = new Player("Jack", "example1@gmail.com");
@@ -34,10 +34,18 @@ public class SalvoApplication {
             Game g2 = new Game();
             Game g3 = new Game();
             Game g4 = new Game();
+            Game g5 = new Game();
+            Game g6 = new Game();
+            Game g7 = new Game();
+            Game g8 = new Game();
             GameRepo.save(g1);
             GameRepo.save(g2);
             GameRepo.save(g3);
             GameRepo.save(g4);
+            GameRepo.save(g5);
+            GameRepo.save(g6);
+            GameRepo.save(g7);
+            GameRepo.save(g8);
 
 
             //gameplayers creation
@@ -57,34 +65,110 @@ public class SalvoApplication {
             GamePlayerRepo.save(gp7);
 
             //ships creation
-            ArrayList<String> destructor1 = new ArrayList<String>();
-            destructor1.add("H1");
-            destructor1.add("H2");
-            destructor1.add("H3");
+            ArrayList<String> destroyer1 = new ArrayList<String>();
+            destroyer1.add("H1");
+            destroyer1.add("H2");
+            destroyer1.add("H3");
 
-            ArrayList<String> destructor2 = new ArrayList<String>();
-            destructor2.add("B2");
-            destructor2.add("B3");
-            destructor2.add("B4");
+            ArrayList<String> destroyer2 = new ArrayList<String>();
+            destroyer2.add("B2");
+            destroyer2.add("B3");
+            destroyer2.add("B4");
 
             ArrayList<String> submarine1 = new ArrayList<String>();
             submarine1.add("G1");
             submarine1.add("G2");
             submarine1.add("G3");
 
+            ArrayList<String> submarine2 = new ArrayList<String>();
+            submarine2.add("G1");
+            submarine2.add("G2");
+            submarine2.add("G3");
+
+            ArrayList<String> submarine3 = new ArrayList<String>();
+            submarine3.add("G1");
+            submarine3.add("G2");
+            submarine3.add("G3");
+
             ArrayList<String> patrol1 = new ArrayList<String>();
             patrol1.add("A1");
             patrol1.add("A2");
 
+            ArrayList<String> patrol2 = new ArrayList<String>();
+            patrol2.add("A1");
+            patrol2.add("A2");
 
-            Ship des1 = new Ship("Destructor", destructor1, gp1);
-            Ship sub1 = new Ship("Submarine", submarine1, gp1);
-            Ship pat1 = new Ship("Patrol Boat", patrol1, gp1);
-            Ship des2 = new Ship ("Destructor", destructor2, gp2);
+            ArrayList<String> patrol3 = new ArrayList<String>();
+            patrol3.add("A1");
+            patrol3.add("A2");
+
+            ArrayList<String> carrier1 = new ArrayList<String>();
+            carrier1.add("D4");
+            carrier1.add("E4");
+            carrier1.add("F4");
+            carrier1.add("G4");
+            carrier1.add("H4");
+
+            ArrayList<String> carrier2 = new ArrayList<String>();
+            carrier2.add("F2");
+            carrier2.add("F3");
+            carrier2.add("F4");
+            carrier2.add("F5");
+            carrier2.add("F6");
+
+            ArrayList<String> carrier3 = new ArrayList<String>();
+            carrier3.add("H4");
+            carrier3.add("H5");
+            carrier3.add("H6");
+            carrier3.add("H7");
+            carrier3.add("H8");
+
+
+            Ship des1 = new Ship("destroyer", destroyer1, gp1);
+            Ship des2 = new Ship ("destroyer", destroyer2, gp2);
+            Ship sub1 = new Ship("submarine", submarine1, gp1);
+            Ship sub2 = new Ship("submarine", submarine2, gp7);
+            Ship sub3 = new Ship("submarine", submarine3, gp5);
+            Ship pat1 = new Ship("patrolBoat", patrol1, gp1);
+            Ship pat2 = new Ship("patrolBoat", patrol2, gp3);
+            Ship pat3 = new Ship("patrolBoat", patrol3, gp6);
+            Ship car1 = new Ship ("carrier", carrier1, gp2);
+            Ship car2 = new Ship ("carrier", carrier2, gp7);
+            Ship car3 = new Ship ("carrier", carrier3, gp4);
             shipRepo.save(des1);
-            shipRepo.save(sub1);
-            shipRepo.save(pat1);
             shipRepo.save(des2);
+            shipRepo.save(sub1);
+            shipRepo.save(sub2);
+            shipRepo.save(sub3);
+            shipRepo.save(pat1);
+            shipRepo.save(pat2);
+            shipRepo.save(pat3);
+            shipRepo.save(car1);
+            shipRepo.save(car2);
+            shipRepo.save(car3);
+
+
+            ArrayList<String> salvoP1 = new ArrayList<String>();
+            salvoP1.add("F3");
+            salvoP1.add("A8");
+
+            ArrayList<String> salvoP2 = new ArrayList<String>();
+            salvoP2.add("G5");
+            salvoP2.add("B9");
+
+            ArrayList<String> salvoP3 = new ArrayList<String>();
+            salvoP3.add("G3");
+            salvoP3.add("F1");
+
+            Salvo salvo1 = new Salvo(gp1, 1, salvoP1);
+            salvoRepo.save(salvo1);
+
+            Salvo salvo2 = new Salvo(gp2, 1, salvoP2);
+            salvoRepo.save(salvo2);
+
+            Salvo salvo3 = new Salvo(gp1, 2, salvoP3);
+            salvoRepo.save(salvo3);
+
 
 
         };

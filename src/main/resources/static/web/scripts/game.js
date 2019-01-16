@@ -32,7 +32,7 @@ var myApp = new Vue({
                 })
                 .catch((err) => {
                     console.log(err);
-                    //text.append(data.message);
+                    text.append(data.message);
                     console.log("errordimierda");
                 })
         },
@@ -40,26 +40,26 @@ var myApp = new Vue({
         printShips: function () {
             for (var x = 0; x < this.data.ships.length; x++) {
                 for (var y = 0; y < this.data.ships[x].position.length; y++) {
-                    document.getElementById(this.data.ships[x].position[y]).className += "ship";
+                    document.getElementById(this.data.ships[x].position[y]).className += this.data.ships[x].type;
                 }
             }
 
         },
-        printPlayerInfo: function(){
-            console.log("hi");
-            for (var x = 0; x<this.data.gameplayers.length; x++){
-                if (this.data.gameplayers[x].id == this.gpURL){
+        printPlayerInfo: function () {
+
+            for (var x = 0; x < this.data.gameplayers.length; x++) {
+                if (this.data.gameplayers[x].id == this.gpURL) {
                     this.ownerGame = this.data.gameplayers[x].player.username;
-                }else{
+                } else {
                     this.opponent = this.data.gameplayers[x].player.username;
                 }
             }
-            console.log(this.opponent);
-            console.log(this.ownerGame);
+            console.log("owner " + this.ownerGame);
+            console.log("opponent " + this.opponent);
         }
     },
 
-      
+
 
     created: function () {
         this.getURL();

@@ -19,7 +19,7 @@ public class Ship {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gamePlayer_id")
-    private GamePlayer gamePlayer;
+    private GamePlayer gamePlayerShip;
 
     @ElementCollection
     @Column(name = "shipPosition")
@@ -32,7 +32,7 @@ public class Ship {
     public Ship(String shipType, List<String> shipPosition, GamePlayer gamePlayer) {
         this.shipType = shipType;
         this.shipPosition = shipPosition;
-        this.gamePlayer = gamePlayer;
+        this.gamePlayerShip = gamePlayer;
         gamePlayer.setShips(this);
     }
 
@@ -54,11 +54,11 @@ public class Ship {
     }
 
     public GamePlayer getGamePlayers() {
-        return gamePlayer;
+        return gamePlayerShip;
     }
 
     public void setGamePlayers(GamePlayer gamePlayers) {
-        this.gamePlayer = gamePlayers;
+        this.gamePlayerShip = gamePlayers;
     }
 
     public List<String> getShipPosition() {

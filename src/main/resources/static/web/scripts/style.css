@@ -40,9 +40,7 @@
 
 
 
-  .ship {
-    background-color: red;
-  }
+  
 
   .infoContainer {
 
@@ -63,4 +61,17 @@
 
   caption {
     text-align: top;
+  }
+
+  .submarine{
+    background-color: red;
+  }
+  .carrier{
+    background-color: yellow;
+  }
+  .patrolBoat{
+    background-color: green;
+  }
+  .destroyer{
+    background-color: purple;
   }

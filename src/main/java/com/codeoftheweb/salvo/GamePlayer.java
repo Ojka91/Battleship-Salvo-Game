@@ -14,8 +14,11 @@ public class GamePlayer {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
-    @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="gamePlayerShip", fetch= FetchType.EAGER)
     private Set<Ship> ships = new HashSet<>();
+
+    @OneToMany(mappedBy="gamePlayerSalvo", fetch= FetchType.EAGER)
+    private Set<Salvo> salvos = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="player_id")
@@ -62,5 +65,13 @@ public class GamePlayer {
 
     public void setShips(Ship ship) {
         this.ships.add(ship);
+    }
+
+    public Set<Salvo> getSalvos() {
+        return salvos;
+    }
+
+    public void setSalvos(Set<Salvo> salvos) {
+        this.salvos = salvos;
     }
 }

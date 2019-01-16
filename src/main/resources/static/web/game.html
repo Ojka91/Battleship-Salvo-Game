@@ -23,7 +23,8 @@
         <div class="infoContainer">
             <div class="row">
                 <div class="col-4">
-                    <p>{{ownerGame}} (you) vs {{opponent}}</p>
+                    <p>{{ownerGame}} (you) vs <span v-if="opponent">{{opponent}}</span> <span v-else>waiting for opponent...</span></p>
+                   
                 </div>
                 <div class="col-4">
 
@@ -31,14 +32,16 @@
             </div>
         </div>
 
-        
+
         <div class="maincontainer" id="maincontainer">
-          
-            
+
+
             <div class="owner" id="owner">
 
                 <table class="tbOwner" id="tbOwner">
-                    <caption><h3>Your Ships...</h3></caption>
+                    <caption>
+                        <h3>Your Ships...</h3>
+                    </caption>
                     <tr v-for="(data1,index) in numbers">
 
                         <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
@@ -53,7 +56,9 @@
             </div>
             <div class="opponent" id="opponent">
                 <table class="tbOwner" id="tbOwner">
-                        <caption><h3>Opponent...</h3></caption>
+                    <caption>
+                        <h3>Opponent...</h3>
+                    </caption>
                     <tr v-for="(data1,index) in numbers">
 
                         <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
@@ -67,8 +72,8 @@
 
 
             </div>
-        
-    </div>
+
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
