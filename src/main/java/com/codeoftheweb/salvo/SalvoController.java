@@ -92,7 +92,7 @@ public class SalvoController {
         dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream()
                 .map(gp -> gamePlayerDTO(gp))
                 .collect(toList()));
-        dto.put("ships", gamePlayer.getShips()
+        dto.put("shipsOwner", gamePlayer.getShips()
                 .stream()
                 .map(sh -> shipDTO(sh))
                 .collect(toList()));

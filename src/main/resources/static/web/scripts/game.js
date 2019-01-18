@@ -44,9 +44,9 @@ var myApp = new Vue({
         },
 
         printShips: function () {
-            for (var x = 0; x < this.data.ships.length; x++) {
-                for (var y = 0; y < this.data.ships[x].position.length; y++) {
-                    document.getElementById(this.data.ships[x].position[y]).className += this.data.ships[x].type;
+            for (var x = 0; x < this.data.shipsOwner.length; x++) {
+                for (var y = 0; y < this.data.shipsOwner[x].position.length; y++) {
+                    document.getElementById(this.data.shipsOwner[x].position[y]).className += this.data.shipsOwner[x].type;
                 }
             }
 
