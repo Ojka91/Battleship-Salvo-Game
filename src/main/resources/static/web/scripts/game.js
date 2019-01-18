@@ -26,15 +26,21 @@ var myApp = new Vue({
                 .then((json) => {
                     this.data = json;
                     console.log(this.data);
+                    this.init();
 
-                    this.printShips();
-                    this.printPlayerInfo();
                 })
                 .catch((err) => {
                     console.log(err);
                     text.append(data.message);
                     console.log("errordimierda");
                 })
+        },
+
+        init: function () {
+            this.printShips();
+            this.printPlayerInfo();
+            this.printEnemySalvos();
+            this.printOwnerSalvos();
         },
 
         printShips: function () {
@@ -45,6 +51,32 @@ var myApp = new Vue({
             }
 
         },
+
+        printEnemySalvos: function () {
+            var img = document.createElement("img");
+            img.src = "/web/styles/assets/fireGif.gif";
+
+            for (var x = 0; x < this.data.salvoesEnemy.length; x++) {
+                for (var y = 0; y < this.data.salvoesEnemy[x].position.length; y++) {
+                    var img = document.createElement("img");
+                    img.className = "fireGif";
+                    img.src = "/web/styles/assets/fireGif.gif";
+                    document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
+                }
+            }
+        },
+
+        printOwnerSalvos: function(){
+            for (var x = 0; x < this.data.salvoesOwner.length; x++) {
+                for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
+                    var img = document.createElement("img");
+                    img.className = "fireGif";
+                    img.src = "/web/styles/assets/fireGif.gif";
+                    document.getElementById(this.data.salvoesOwner[x].position[y]+"E").append(img);
+                }
+            }   
+        },
+
         printPlayerInfo: function () {
 
             for (var x = 0; x < this.data.gameplayers.length; x++) {

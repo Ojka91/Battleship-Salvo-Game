@@ -164,16 +164,23 @@ public class SalvoApplication {
             salvoP4.add("F3");
             salvoP4.add("E1");
 
+            ArrayList<String> salvoP5 = new ArrayList<String>();
+            salvoP5.add("G3");
+
+
+
             Salvo salvo1 = new Salvo(gp1, 1, salvoP1);
             Salvo salvo2 = new Salvo(gp2, 1, salvoP2);
             Salvo salvo3 = new Salvo(gp1, 2, salvoP3);
             Salvo salvo4 = new Salvo(gp2, 2, salvoP4);
+            Salvo salvo5 = new Salvo(gp2, 2, salvoP5);
 
 
             salvoRepo.save(salvo1);
             salvoRepo.save(salvo2);
             salvoRepo.save(salvo3);
-           // salvoRepo.save(salvo4);
+            salvoRepo.save(salvo4);
+            salvoRepo.save(salvo5);
 
 
 

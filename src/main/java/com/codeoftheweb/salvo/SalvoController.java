@@ -80,7 +80,7 @@ public class SalvoController {
                 .stream()
                 .filter(gamePlayer1 -> gamePlayer1.getId() != gamePlayer.getId()).findAny().orElse(null);
     }
-    
+
 
     @RequestMapping("/game_view/{gameId}")
     public Map<String, Object> getGameView(@PathVariable Long gameId) {

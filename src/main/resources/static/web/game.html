@@ -23,8 +23,9 @@
         <div class="infoContainer">
             <div class="row">
                 <div class="col-4">
-                    <p>{{ownerGame}} (you) vs <span v-if="opponent">{{opponent}}</span> <span v-else>waiting for opponent...</span></p>
-                   
+                    <p>{{ownerGame}} (you) vs <span v-if="opponent">{{opponent}}</span> <span v-else>waiting for
+                            opponent...</span></p>
+
                 </div>
                 <div class="col-4">
 
@@ -42,7 +43,7 @@
                     <caption>
                         <h3>Your Ships...</h3>
                     </caption>
-                    <tr v-for="(data1,index) in numbers">
+                    <tr v-for="(data1, index) in numbers">
 
                         <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
                             <span v-if="index==0 || index2==0">{{data1 + data2}}</span>
@@ -61,7 +62,7 @@
                     </caption>
                     <tr v-for="(data1,index) in numbers">
 
-                        <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
+                        <td v-for="(data2, index2) in letters" v-bind:id="data2+data1+'E'">
                             <span v-if="index==0 || index2==0">{{data1 + data2}}</span>
                         </td>
 
