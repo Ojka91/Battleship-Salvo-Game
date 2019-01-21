@@ -12,7 +12,7 @@ public class Score {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
-    private Double score;
+    private Double points;
 
 
 
@@ -34,10 +34,10 @@ public class Score {
     }
 
 
-    public Score (Game game, Player player, Double score){
+    public Score (Game game, Player player, Double points){
         this.game = game;
         this.player = player;
-        this.score = score;
+        this.points = points;
 
     }
 
@@ -50,12 +50,12 @@ public class Score {
         this.id = id;
     }
 
-    public Double getScore() {
-        return score;
+    public Double getPoints() {
+        return points;
     }
 
-    public void setScore(Double score) {
-        this.score = score;
+    public void setPoints(Double points) {
+        this.points = points;
     }
 
     public Game getGame() {

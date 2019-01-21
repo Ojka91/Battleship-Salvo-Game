@@ -61,20 +61,22 @@ var myApp = new Vue({
                     var img = document.createElement("img");
                     img.className = "fireGif";
                     img.src = "/web/styles/assets/fireGif.gif";
+                    document.getElementById(this.data.salvoesEnemy[x].position[y]).innerHTML = this.data.salvoesEnemy[x].turn;
                     document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
                 }
             }
         },
 
-        printOwnerSalvos: function(){
+        printOwnerSalvos: function () {
             for (var x = 0; x < this.data.salvoesOwner.length; x++) {
                 for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
                     var img = document.createElement("img");
                     img.className = "fireGif";
                     img.src = "/web/styles/assets/fireGif.gif";
-                    document.getElementById(this.data.salvoesOwner[x].position[y]+"E").append(img);
+                    document.getElementById(this.data.salvoesOwner[x].position[y]+"E").innerHTML = this.data.salvoesOwner[x].turn;
+                    document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
                 }
-            }   
+            }
         },
 
         printPlayerInfo: function () {

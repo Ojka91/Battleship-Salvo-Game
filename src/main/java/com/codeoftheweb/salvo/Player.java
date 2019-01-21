@@ -64,11 +64,14 @@ public class Player {
         this.gamePlayers = gamePlayers;
     }
 
-    public Set<Score> getScores() {
-        return scores;
-    }
+
 
     public void setScores(Set<Score> scores) {
         this.scores = scores;
     }
+
+    public Score getScores (Game game){
+        return scores.stream().filter(s -> s.getGame().equals(game)).findFirst().orElse(null);
+    }
+
 }

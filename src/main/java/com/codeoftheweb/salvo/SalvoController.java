@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -21,11 +20,15 @@ public class SalvoController {
     private GamePlayerRepository gamePlayerRepository;
 
     @RequestMapping("/games")
-    public List<Object> getGames() {
-        return gameRepository.findAll()
+    public Map<String, Object> getGames() {
+     //   Game game = gameRepository.getOne(P)
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("game", gameRepository.findAll()
                 .stream()
                 .map(element -> gameDTO(element))
-                .collect(toList());
+                .collect(toList()));
+
+        return dto;
 
     }
 
@@ -52,6 +55,12 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player", playersDTO(gamePlayer.getPlayer()));
+        if(gamePlayer.getScore() != null) {
+            dto.put("score", gamePlayer.getScore().getPoints());
+
+        }else{
+            dto.put("score", null);
+        }
         return dto;
     }
 
