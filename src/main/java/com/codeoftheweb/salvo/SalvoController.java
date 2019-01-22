@@ -21,7 +21,6 @@ public class SalvoController {
 
     @RequestMapping("/games")
     public Map<String, Object> getGames() {
-     //   Game game = gameRepository.getOne(P)
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("game", gameRepository.findAll()
                 .stream()
@@ -31,6 +30,29 @@ public class SalvoController {
         return dto;
 
     }
+
+
+    @RequestMapping("/leaderboard")
+    public Map<String, Object> getScores(GamePlayer gamePlayer) {
+          Map<String, Object> dto = new LinkedHashMap<String, Object>();
+          List<GamePlayer> gamePlayers = gamePlayerRepository.findAll();
+        for (GamePlayer gp: gamePlayers) {
+            Map<String, Object> scores = new LinkedHashMap<>();
+            if (!scores.containsKey(gp.getPlayer().getPlayerUsername())){
+                scores.put("Wins", gp.getPlayer().getScore().stream().filter(sc -> sc.getPoints() == 1).count());
+                scores.put("Losses", gp.getPlayer().getScore().stream().filter(sc -> sc.getPoints() == 0).count());
+                scores.put("Draw", gp.getPlayer().getScore().stream().filter(sc -> sc.getPoints() == 0.5).count());
+                scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getPoints()).sum());
+                dto.put(gp.getPlayer().getPlayerUsername(), scores);
+            }
+        }
+
+        return dto;
+
+    }
+
+
+
 
     private Map<String, Object> gameDTO(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();

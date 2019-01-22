@@ -74,4 +74,8 @@ public class Player {
         return scores.stream().filter(s -> s.getGame().equals(game)).findFirst().orElse(null);
     }
 
+    public Set<Score> getScore (){
+        return scores;
+    }
+
 }

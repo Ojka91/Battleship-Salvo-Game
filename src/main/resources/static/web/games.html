@@ -9,6 +9,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="scripts/style.css">
     <link rel="stylesheet" href="styles/title_style.css">
+    <link rel="stylesheet" href="styles/classification.css">
     <title>Salvo Game</title>
 </head>
 
@@ -16,10 +17,30 @@
     <div id="app">
     <header>
         <p class="title">
-            Leaderboard
+            Classification
         </p>
     </header>
-    <div>
+    <div class="containerScores">   
+        <table class="tableScores">
+            <caption>
+                <h3>Leaderboard...</h3>
+            </caption>
+            <tr>
+                <th>Name</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Draw</th>
+                <th>Points</th>
+            </tr>
+            <tr v-for="(players, index) in data ">
+                <td>{{index}}</td>
+                <td>{{players.Wins}}</td>
+                <td>{{players.Losses}}</td>
+                <td>{{players.Draw}}</td>
+                <td>{{players.Total}}</td>
+             
+            </tr>
+        </table>
         
 
     </div>

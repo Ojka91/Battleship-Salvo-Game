@@ -3,14 +3,18 @@ var myApp = new Vue({
     data: {
         data: "",
         json:{
+            "players":[{
+           
+            }]
            
         },
     },
 
+
     methods: {
         getData: function () {
 
-            fetch('/api/games/')
+            fetch('/api/leaderboard/')
                 .then((res) => res.json())
                 .then((json) => {
                     this.data = json;
@@ -32,12 +36,13 @@ var myApp = new Vue({
 
         getPlayers: function(){
                      
-            
-
+        
         }
 
 
     },
+
+
     created: function () {
         this.getData();
     },

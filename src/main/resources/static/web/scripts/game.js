@@ -59,10 +59,18 @@ var myApp = new Vue({
             for (var x = 0; x < this.data.salvoesEnemy.length; x++) {
                 for (var y = 0; y < this.data.salvoesEnemy[x].position.length; y++) {
                     var img = document.createElement("img");
+                    var img2 = document.createElement("img");
                     img.className = "fireGif";
+                    img2.className = "waterSplash"
                     img.src = "/web/styles/assets/fireGif.gif";
+                    img2.src = "/web/styles/assets/splash.gif";
                     document.getElementById(this.data.salvoesEnemy[x].position[y]).innerHTML = this.data.salvoesEnemy[x].turn;
-                    document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
+                    if (document.getElementById(this.data.salvoesEnemy[x].position[y]).classList.contains("submarine" || "carrier" || "patrolBoat" || "destroyer")){
+                        document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
+                    }
+                    else{
+                        document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img2);
+                    }
                 }
             }
         },
