@@ -2,11 +2,11 @@ var myApp = new Vue({
     el: '#app',
     data: {
         data: "",
-        json:{
-            "players":[{
-           
+        json: {
+            "players": [{
+
             }]
-           
+
         },
     },
 
@@ -31,15 +31,28 @@ var myApp = new Vue({
 
         init: function () {
             this.getPlayers();
-            
+
         },
 
-        getPlayers: function(){
-                     
-        
+        getPlayers: function () {
+
+
         }
 
 
+    },
+    computed: {
+        sortedData() {
+            let sorted = {};
+            Object
+                .keys(this.data).sort((a, b) => {
+                    return this.data[b].Total - this.data[a].Total;
+                })
+                .forEach(function (key) {
+                    sorted[key] = myApp.data[key];
+                });
+            return sorted;
+        }
     },
 
 

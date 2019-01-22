@@ -28,15 +28,15 @@
             <tr>
                 <th>Name</th>
                 <th>Wins</th>
-                <th>Losses</th>
                 <th>Draw</th>
+                <th>Losses</th>
                 <th>Points</th>
             </tr>
-            <tr v-for="(players, index) in data ">
+            <tr v-for="(players, index) in sortedData ">
                 <td>{{index}}</td>
                 <td>{{players.Wins}}</td>
-                <td>{{players.Losses}}</td>
                 <td>{{players.Draw}}</td>
+                <td>{{players.Losses}}</td>
                 <td>{{players.Total}}</td>
              
             </tr>

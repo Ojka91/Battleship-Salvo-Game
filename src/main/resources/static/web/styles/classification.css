@@ -5,12 +5,18 @@
     padding-bottom: 10px;
     border-top: 2px solid grey;
     border-bottom: 2px solid grey;
+    
 }
 
 td{
     height: 50px;
     width: 50px;
     
+}
+
+h3{
+    color: #228DFF;
+    text-shadow: 2px 2px 2px white;
 }
 
 
