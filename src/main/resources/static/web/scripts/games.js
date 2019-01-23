@@ -1,7 +1,8 @@
 var myApp = new Vue({
     el: '#app',
     data: {
-        data: "",
+        dataClass: "",
+        dataGames: "",
         json: {
             "players": [{
 
@@ -12,14 +13,30 @@ var myApp = new Vue({
 
 
     methods: {
-        getData: function () {
+        getDataClass: function () {
 
             fetch('/api/leaderboard/')
                 .then((res) => res.json())
                 .then((json) => {
-                    this.data = json;
-                    console.log(this.data);
+                    this.dataClass = json;
+                    console.log(this.dataClass);
                     this.init();
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                   // text.append(data.message);
+                    console.log("errordimierda");
+                })
+        },
+
+        getDataGames: function () {
+
+            fetch('/api/games/')
+                .then((res) => res.json())
+                .then((json) => {
+                    this.dataGames = json;
+                    console.log(this.dataGames);
 
                 })
                 .catch((err) => {
@@ -34,9 +51,21 @@ var myApp = new Vue({
 
         },
 
-        getPlayers: function () {
+        formatDate(date) {
 
+            date = new Date
+            var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+            ];
 
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
+
+            return day + ' ' + monthNames[monthIndex] + ' ' + year;
         }
 
 
@@ -45,11 +74,11 @@ var myApp = new Vue({
         sortedData() {
             let sorted = {};
             Object
-                .keys(this.data).sort((a, b) => {
-                    return this.data[b].Total - this.data[a].Total;
+                .keys(this.dataClass).sort((a, b) => {
+                    return this.dataClass[b].Total - this.dataClass[a].Total;
                 })
                 .forEach(function (key) {
-                    sorted[key] = myApp.data[key];
+                    sorted[key] = myApp.dataClass[key];
                 });
             return sorted;
         }
@@ -57,7 +86,8 @@ var myApp = new Vue({
 
 
     created: function () {
-        this.getData();
+        this.getDataClass();
+        this.getDataGames();
     },
 
 });

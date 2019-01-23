@@ -186,7 +186,12 @@ public class SalvoApplication {
 
             scoreRepo.save(new Score(g1, p1,1.0 ));
             scoreRepo.save(new Score(g1, p2, 0.0 ));
-            scoreRepo.save(new Score(g2, p3,0.5));
+            scoreRepo.save(new Score(g2, p1,0.5 ));
+            scoreRepo.save(new Score(g2, p2, 0.5 ));
+            scoreRepo.save(new Score(g3, p2,1.0));
+            scoreRepo.save(new Score(g3, p3,0.0));
+            scoreRepo.save(new Score(g4, p2,0.5));
+            scoreRepo.save(new Score(g4, p1,0.5));
 
 
         };

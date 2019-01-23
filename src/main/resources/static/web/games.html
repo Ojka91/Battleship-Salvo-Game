@@ -23,6 +23,32 @@
     <div class="containerScores">   
         <table class="tableScores">
             <caption>
+                <h3>Games</h3>
+            </caption>
+            <tr>
+                <th>Game ID</th>
+                <th>Created</th>
+                <th>Player 1</th>
+                <th>Player 2</th>
+                <th>?Join?</th>
+             
+            </tr>
+            <tr v-for="(games, index) in dataGames.game ">
+                <td>{{games.id}}</td>
+                <td>{{formatDate(games.created)}}</td>
+               
+                    <td v-for="gp in games.GamePlayers" v-if="games.GamePlayers.length == 2">{{gp.player.username}}</td>
+                    <td v-if="games.GamePlayers.length == 1">{{games.GamePlayers[0].player.username}}</td>
+                    <td v-if="games.GamePlayers.length == 1">Waiting for opponent...</td>
+               
+                    
+                    <td>Join In</td>
+               
+             
+            </tr>
+        </table>
+        <table class="tableScores">
+            <caption>
                 <h3>Leaderboard...</h3>
             </caption>
             <tr>
@@ -41,9 +67,9 @@
              
             </tr>
         </table>
-        
 
     </div>
+
 </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

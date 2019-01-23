@@ -5,12 +5,14 @@
     padding-bottom: 10px;
     border-top: 2px solid grey;
     border-bottom: 2px solid grey;
+    margin-bottom: 20px;
+    justify-content: space-around;
     
 }
 
 td{
     height: 50px;
-    width: 50px;
+    width: 100px;
     
 }
 
