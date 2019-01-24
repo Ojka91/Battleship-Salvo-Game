@@ -1,14 +1,40 @@
 package com.codeoftheweb.salvo;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
-public class SalvoApplication {
+public class SalvoApplication  extends SpringBootServletInitializer {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+
+    }
+
+
 
     public static void main(String[] args) {
         SpringApplication.run(SalvoApplication.class, args);
@@ -17,12 +43,14 @@ public class SalvoApplication {
     @Bean
     public CommandLineRunner initData(PlayerRepository PlayerRepo, GameRepository GameRepo, GamePlayerRepository GamePlayerRepo, ShipRepository shipRepo, SalvoRepository salvoRepo, ScoreRepository scoreRepo) {
         return (args) -> {
+
+
             //players creation
-            Player p1 = new Player("Jack", "example1@gmail.com");
-            Player p2 = new Player("Chloe", "example2@gmail.com");
-            Player p3 = new Player("Kim", "example3@gmail.com");
-            Player p4 = new Player("David", "example4@gmail.com");
-            Player p5 = new Player("Michelle", "example5@gmail.com");
+            Player p1 = new Player("Jack", "example1@gmail.com", "24");
+            Player p2 = new Player("Chloe", "example2@gmail.com", "42");
+            Player p3 = new Player("Kim", "example3@gmail.com", "kb");
+            Player p4 = new Player("Tony", "example4@gmail.com", "mole");
+            Player p5 = new Player("Michelle", "example5@gmail.com", "nose");
             PlayerRepo.save(p1);
             PlayerRepo.save(p2);
             PlayerRepo.save(p3);
@@ -200,4 +228,42 @@ public class SalvoApplication {
 
 
 }
+
+@Configuration
+class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+        @Autowired
+        PlayerRepository playerRepository;
+
+        @Autowired
+        PasswordEncoder passwordEncoder;
+
+        @Override
+        public void init(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(inputName-> {
+                Player player = playerRepository.findByPlayerEmail(inputName);
+                if (player != null) {
+                    return new User(player.getPlayerEmail(), passwordEncoder.encode(player.getPassword()),
+                            AuthorityUtils.createAuthorityList("USER"));
+
+                } else {
+                    throw new UsernameNotFoundException("Unknown user: " + inputName);
+                }
+            });
+        }
+}
+@EnableWebSecurity
+@Configuration
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/web/**").permitAll()
+                .antMatchers("/api/**").hasAuthority("USER")
+                .antMatchers("/rest/**").hasAuthority("USER")
+                .and()
+                .formLogin();
+
+        }
+    }
 

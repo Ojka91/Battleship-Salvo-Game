@@ -2,10 +2,13 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Player {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -13,15 +16,23 @@ public class Player {
 
     private String playerUsername;
     private String playerEmail;
+    private String password;
 
 
     public Player(){
 
     }
 
-    public Player(String player, String email){
+    public Player(String player, String email, String password){
         this.playerUsername = player;
         this.playerEmail = email;
+        this.password = password;
+    }
+
+    public Player(String email, String password){
+
+        this.playerEmail = email;
+        this.password = password;
     }
 
     @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
@@ -77,5 +88,15 @@ public class Player {
     public Set<Score> getScore (){
         return scores;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 
 }

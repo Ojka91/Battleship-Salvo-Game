@@ -3,12 +3,7 @@ var myApp = new Vue({
     data: {
         dataClass: "",
         dataGames: "",
-        json: {
-            "players": [{
-
-            }]
-
-        },
+     
     },
 
 
@@ -20,12 +15,12 @@ var myApp = new Vue({
                 .then((json) => {
                     this.dataClass = json;
                     console.log(this.dataClass);
-                    this.init();
+                    
 
                 })
                 .catch((err) => {
                     console.log(err);
-                   // text.append(data.message);
+                   //  text.append(data.message);
                     console.log("errordimierda");
                 })
         },
@@ -41,16 +36,12 @@ var myApp = new Vue({
                 })
                 .catch((err) => {
                     console.log(err);
-                    text.append(data.message);
+                    //text.append(data.message);
                     console.log("errordimierda");
                 })
         },
 
-        init: function () {
-            this.getPlayers();
-
-        },
-
+    
         formatDate(date) {
 
             date = new Date
