@@ -18,8 +18,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,16 +51,16 @@ public class SalvoApplication  extends SpringBootServletInitializer {
 
 
             //players creation
-            Player p1 = new Player("Jack", "example1@gmail.com", "24");
-            Player p2 = new Player("Chloe", "example2@gmail.com", "42");
-            Player p3 = new Player("Kim", "example3@gmail.com", "kb");
-            Player p4 = new Player("Tony", "example4@gmail.com", "mole");
-            Player p5 = new Player("Michelle", "example5@gmail.com", "nose");
+            Player p1 = new Player("Jack", "j.bauer@ctu.gov", "24");
+            Player p2 = new Player("Chloe", "c.obrian@ctu.gov", "42");
+            Player p3 = new Player("Kim", "kim_bauer@gmail.com", "kb");
+            Player p4 = new Player("Tony", "t.almeida@ctu.gov", "mole");
+
             PlayerRepo.save(p1);
             PlayerRepo.save(p2);
             PlayerRepo.save(p3);
             PlayerRepo.save(p4);
-            PlayerRepo.save(p5);
+
 
             //games creation
             Game g1 = new Game();
@@ -70,20 +75,18 @@ public class SalvoApplication  extends SpringBootServletInitializer {
             GameRepo.save(g2);
             GameRepo.save(g3);
             GameRepo.save(g4);
-            GameRepo.save(g5);
-            GameRepo.save(g6);
-            GameRepo.save(g7);
-            GameRepo.save(g8);
+
 
 
             //gameplayers creation
             GamePlayer gp1 = new GamePlayer(g1, p1);
             GamePlayer gp2 = new GamePlayer(g1, p2);
-            GamePlayer gp3 = new GamePlayer(g2, p3);
+            GamePlayer gp3 = new GamePlayer(g2, p2);
             GamePlayer gp4 = new GamePlayer(g2, p4);
-            GamePlayer gp5 = new GamePlayer(g3, p1);
-            GamePlayer gp6 = new GamePlayer(g3, p3);
-            GamePlayer gp7 = new GamePlayer(g4, p5);
+            GamePlayer gp5 = new GamePlayer(g3, p2);
+            GamePlayer gp6 = new GamePlayer(g3, p1);
+            GamePlayer gp7 = new GamePlayer(g4, p3);
+
             GamePlayerRepo.save(gp1);
             GamePlayerRepo.save(gp2);
             GamePlayerRepo.save(gp3);
@@ -91,6 +94,7 @@ public class SalvoApplication  extends SpringBootServletInitializer {
             GamePlayerRepo.save(gp5);
             GamePlayerRepo.save(gp6);
             GamePlayerRepo.save(gp7);
+
 
             //ships creation
             ArrayList<String> destroyer1 = new ArrayList<String>();
@@ -155,24 +159,20 @@ public class SalvoApplication  extends SpringBootServletInitializer {
             Ship des1 = new Ship("destroyer", destroyer1, gp1);
             Ship des2 = new Ship ("destroyer", destroyer2, gp2);
             Ship sub1 = new Ship("submarine", submarine1, gp1);
-            Ship sub2 = new Ship("submarine", submarine2, gp7);
             Ship sub3 = new Ship("submarine", submarine3, gp5);
             Ship pat1 = new Ship("patrolBoat", patrol1, gp1);
             Ship pat2 = new Ship("patrolBoat", patrol2, gp3);
             Ship pat3 = new Ship("patrolBoat", patrol3, gp6);
             Ship car1 = new Ship ("carrier", carrier1, gp2);
-            Ship car2 = new Ship ("carrier", carrier2, gp7);
             Ship car3 = new Ship ("carrier", carrier3, gp4);
             shipRepo.save(des1);
             shipRepo.save(des2);
             shipRepo.save(sub1);
-            shipRepo.save(sub2);
             shipRepo.save(sub3);
             shipRepo.save(pat1);
             shipRepo.save(pat2);
             shipRepo.save(pat3);
             shipRepo.save(car1);
-            shipRepo.save(car2);
             shipRepo.save(car3);
 
 
@@ -258,12 +258,43 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/web/**").permitAll()
-                .antMatchers("/api/**").hasAuthority("USER")
-                .antMatchers("/rest/**").hasAuthority("USER")
+                .antMatchers("/rest/**").hasAuthority("ADMIN")
+                .antMatchers("/web/games.html").permitAll()
+                .antMatchers("/web/game.html").hasAnyAuthority("USER")
+                .antMatchers("/api/game_view/**").hasAuthority("USER")
+                .antMatchers("/api/players/").hasAuthority("USER")
+                .antMatchers("/api/leaderboard").permitAll()
+
                 .and()
-                .formLogin();
+                .formLogin()
+                .usernameParameter("name")
+                .passwordParameter("pwd")
+                .loginPage("/api/login");
+
+                http.logout().logoutUrl("/api/logout");
+
+
+        // turn off checking for CSRF tokens
+        http.csrf().disable();
+
+        // if user is not authenticated, just send an authentication failure response
+        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+        // if login is successful, just clear the flags asking for authentication
+        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+
+        // if login fails, just send an authentication failure response
+        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+        // if logout is successful, just send a success response
+        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
         }
-    }
+
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        }
+    }}
 

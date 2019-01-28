@@ -15,69 +15,81 @@
 
 <body>
     <div id="app">
-    <header>
-        <p class="title">
-            Classification
-        </p>
-    </header>
-    <div class="containerScores">   
-        <table class="tableScores">
-            <caption>
-                <h3>Games</h3>
-            </caption>
-            <tr>
-                <th>Game ID</th>
-                <th>Created</th>
-                <th>Player 1</th>
-                <th>Player 2</th>
-                <th>?Join?</th>
-             
-            </tr>
-            <tr v-for="(games, index) in dataGames.game ">
-                <td>{{games.id}}</td>
-                <td>{{formatDate(games.created)}}</td>
-               
-                    <td v-for="gp in games.GamePlayers" v-if="games.GamePlayers.length == 2">{{gp.player.username}}</td>
+        <header>
+            <p class="title">
+                Classification
+            </p>
+        </header>
+        <div v-if="playerStatus == false" class="form">
+            <form id="login-form" onsubmit="return false">
+                <label>Email: <input type="text" name="username" placeholder="Email" id="email"></label>
+                <label>Password: <input type="text" name="password" placeholder="Password" id="password"></label>
+
+                <button v-on:click="getDataForm()">Login</button>
+            </form>
+        </div >
+        <div v-if="playerStatus == true" class="formLogIn">
+            <h2>Welcome {{ourData.name}}</h2>
+      
+        <button v-on:click="logOut()">Logout</button>
+        </div>
+
+        <div class="containerScores">
+            <table class="tableScores">
+                <caption>
+                    <h3>Games</h3>
+                </caption>
+                <tr>
+                    <th>Game ID</th>
+                    <th>Created</th>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+                    <th>?Join?</th>
+
+                </tr>
+                <tr v-for="(games, index) in dataGames.game ">
+                    <td>{{games.id}}</td>
+                    <td>{{formatDate(games.created)}}</td>
+                    <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[0].id>games.GamePlayers[1].id">{{games.GamePlayers[1].player.username}}</td>
+                    <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[0].id>games.GamePlayers[1].id">{{games.GamePlayers[0].player.username}}</td>
+                    <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[1].id>games.GamePlayers[0].id">{{games.GamePlayers[0].player.username}}</td>
+                    <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[1].id>games.GamePlayers[0].id">{{games.GamePlayers[1].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">{{games.GamePlayers[0].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">Waiting for opponent...</td>
-               
-                    
                     <td>Join In</td>
-               
-             
-            </tr>
-        </table>
-        <table class="tableScores">
-            <caption>
-                <h3>Leaderboard...</h3>
-            </caption>
-            <tr>
-                <th>Name</th>
-                <th>Wins</th>
-                <th>Draw</th>
-                <th>Losses</th>
-                <th>Points</th>
-            </tr>
-            <tr v-for="(players, index) in sortedData ">
-                <td>{{index}}</td>
-                <td>{{players.Wins}}</td>
-                <td>{{players.Draw}}</td>
-                <td>{{players.Losses}}</td>
-                <td>{{players.Total}}</td>
-             
-            </tr>
-        </table>
+                </tr>
+            </table>
+            <table class="tableScores">
+                <caption>
+                    <h3>Leaderboard...</h3>
+                </caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Wins</th>
+                    <th>Draw</th>
+                    <th>Losses</th>
+                    <th>Points</th>
+                </tr>
+                <tr v-for="(players, index) in sortedData ">
+                    <td>{{index}}</td>
+                    <td>{{players.Wins}}</td>
+                    <td>{{players.Draw}}</td>
+                    <td>{{players.Losses}}</td>
+                    <td>{{players.Total}}</td>
+
+                </tr>
+            </table>
+
+        </div>
 
     </div>
-
-</div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="scripts/games.js"></script>
 </body>
 

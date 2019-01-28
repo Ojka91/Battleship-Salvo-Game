@@ -1,11 +1,15 @@
 package com.codeoftheweb.salvo;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Authenticator;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -24,8 +28,14 @@ public class SalvoController {
     private PlayerRepository playerRepository;
 
     @RequestMapping("/games")
-    public Map<String, Object> getGames() {
+    public Map<String, Object> getGames(Authentication authentication) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        if(isGuest(authentication)){
+            dto.put("player", null);
+        }else{
+        dto.put("username", playersDTO(isAuth(authentication)));
+
+        }
         dto.put("game", gameRepository.findAll()
                 .stream()
                 .map(element -> gameDTO(element))
@@ -108,14 +118,27 @@ public class SalvoController {
         return dto;
     }
 
-
-    //create a method to look for the opponent GP
+    // -------COMMON METHODS -------//
+    //method that look for the opponent GP
     private GamePlayer getOpponent(GamePlayer gamePlayer) {
         return gamePlayer.getGame().getGamePlayers()
                 .stream()
                 .filter(gamePlayer1 -> gamePlayer1.getId() != gamePlayer.getId()).findAny().orElse(null);
     }
 
+
+    //method that looks for current user
+    private Player isAuth (Authentication authentication){
+
+            return playerRepository.findByPlayerEmail(authentication.getName());
+
+    }
+
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+
+    // END -------COMMON METHODS -------//
 
     @RequestMapping("/game_view/{gameId}")
     public Map<String, Object> getGameView(@PathVariable Long gameId) {

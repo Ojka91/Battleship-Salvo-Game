@@ -26,3 +26,20 @@ h3{
 caption{
     font-size: 34px;
 }
+
+input[type=text]:focus {
+    border: 3px solid #555;
+
+  }
+
+
+  
+  .form{
+      display: flex;
+      background-color: rgba(45, 67, 190, 0.534);
+      border: 2px rgba(255, 255, 255, 0.733) solid;
+      height: 60px;
+      align-items: center;
+      margin-bottom: 15px;
+      width: 50%;
+  }
