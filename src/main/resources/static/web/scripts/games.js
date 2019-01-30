@@ -4,8 +4,8 @@ var myApp = new Vue({
         dataClass: "",
         dataGames: "",
         ourData: {
-            name: "",
-            pwd: "",
+            playerEmail: "",
+            password: "",
         },
         playerStatus: false,
     
@@ -42,8 +42,14 @@ var myApp = new Vue({
                 })
                 .then(function (data) {
                     console.log('Request success: ', data);
-                    myApp.playerStatus = true;
-                  
+                    if (data.status == 200){
+                        myApp.getDataGames();
+                    }
+                    else{
+                        alert("error login in")
+                    }
+                        
+                    
                     
                 })
                 .catch(function (error) {
@@ -58,7 +64,13 @@ var myApp = new Vue({
                 })
                 .then(function (data) {
                     console.log('Request success: ', data);
-                    myApp.playerStatus = false;
+                    if (data.status == 200){
+                        myApp.playerStatus = false;
+                    }
+                    else{
+                        alert("Error login in")
+                    }
+
                           
                 })
                 .catch(function (error) {
@@ -75,6 +87,13 @@ var myApp = new Vue({
                 .then((json) => {
                     this.dataGames = json;
                     console.log(this.dataGames);
+                    if (this.dataGames.username != null){
+                        console.log("deberia canvair a true")
+                        this.playerStatus = true;
+                    }
+                    else{
+                        this.playerStatus=false;
+                    }
 
                 })
                 .catch((err) => {
@@ -114,12 +133,35 @@ var myApp = new Vue({
     },
 
     getDataForm(){
-        this.ourData.name = document.getElementById("email").value;
-        this.ourData.pwd = document.getElementById("password").value;
+        this.ourData.playerEmail = document.getElementById("email").value;
+        this.ourData.password = document.getElementById("password").value;
         this.getLogIn();
         
     },
 
+    signUp(){
+        fetch('/api/players/', {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(myApp.ourData)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            console.log('parsed json', json)
+        }).catch(function(ex) {
+            console.log('parsing failed', ex)
+      
+        });
+    },
+
+    fillData(){
+      this.ourData.playerEmail = document.getElementById("email").value;
+      this.ourData.password = document.getElementById("password").value;
+        this.signUp();
+    },
 
 },
 computed: {

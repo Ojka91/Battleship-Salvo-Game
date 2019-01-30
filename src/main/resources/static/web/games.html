@@ -26,10 +26,12 @@
                 <label>Password: <input type="text" name="password" placeholder="Password" id="password"></label>
 
                 <button v-on:click="getDataForm()">Login</button>
+                <span> or </span>
+                <button v-on:click="fillData()">SignUp</button>
             </form>
         </div >
         <div v-if="playerStatus == true" class="formLogIn">
-            <h2>Welcome {{ourData.name}}</h2>
+            <h2>Welcome {{dataGames.username.email}}</h2>
       
         <button v-on:click="logOut()">Logout</button>
         </div>

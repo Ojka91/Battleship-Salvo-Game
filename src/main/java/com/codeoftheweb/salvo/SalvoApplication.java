@@ -262,13 +262,13 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/web/games.html").permitAll()
                 .antMatchers("/web/game.html").hasAnyAuthority("USER")
                 .antMatchers("/api/game_view/**").hasAuthority("USER")
-                .antMatchers("/api/players/").hasAuthority("USER")
                 .antMatchers("/api/leaderboard").permitAll()
+                .antMatchers("/api/players").permitAll()
 
                 .and()
                 .formLogin()
-                .usernameParameter("name")
-                .passwordParameter("pwd")
+                .usernameParameter("playerEmail")
+                .passwordParameter("password")
                 .loginPage("/api/login");
 
                 http.logout().logoutUrl("/api/logout");

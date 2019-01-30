@@ -31,7 +31,7 @@ var myApp = new Vue({
                 })
                 .catch((err) => {
                     console.log(err);
-                   // text.append(data.message);
+                   //    text.append(data.message);
                     console.log("errordimierda");
                 })
         },

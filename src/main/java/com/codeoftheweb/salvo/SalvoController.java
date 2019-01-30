@@ -133,6 +133,11 @@ public class SalvoController {
             return playerRepository.findByPlayerEmail(authentication.getName());
 
     }
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
 
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
@@ -171,19 +176,23 @@ public class SalvoController {
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     public ResponseEntity<Object> register(
 
-            @RequestParam String email, @RequestParam String password) {
+           @RequestBody Player player) {
 
-        if ( email.isEmpty() || password.isEmpty()) {
+        if ( player.getPlayerEmail().isEmpty() || player.getPassword().isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        if (playerRepository.findByPlayerEmail(email) !=  null) {
+        if (playerRepository.findByPlayerEmail(player.getPlayerEmail()) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        playerRepository.save(new Player(email, passwordEncoder.encode(password)));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        playerRepository.save(new Player(player.getPlayerEmail(), player.getPassword()));
+        return new ResponseEntity<>(makeMap("player", player.getPlayerEmail()), HttpStatus.CREATED);
+
     }
+
+
+
 
 }
 
