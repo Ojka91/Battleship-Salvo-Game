@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.c   om/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="scripts/style.css">
     <link rel="stylesheet" href="styles/title_style.css">
@@ -22,8 +22,8 @@
         </header>
         <div v-if="playerStatus == false" class="form">
             <form id="login-form" onsubmit="return false">
-                <label>Email: <input type="text" name="username" placeholder="Email" id="email"></label>
-                <label>Password: <input type="text" name="password" placeholder="Password" id="password"></label>
+                <label>Email: <input type="text" name="username" placeholder="Email" id="email" required></label>
+                <label>Password: <input type="text" name="password" placeholder="Password" id="password" required></label>
 
                 <button v-on:click="getDataForm()">Login</button>
                 <span> or </span>
@@ -46,7 +46,7 @@
                     <th>Created</th>
                     <th>Player 1</th>
                     <th>Player 2</th>
-                    <th>?Join?</th>
+                    <th>Action</th>
 
                 </tr>
                 <tr v-for="(games, index) in dataGames.game ">
@@ -58,9 +58,11 @@
                     <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[1].id>games.GamePlayers[0].id">{{games.GamePlayers[1].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">{{games.GamePlayers[0].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">Waiting for opponent...</td>
-                    <td>Join In</td>
+                    <td v-if="games.GamePlayers.length == 1"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email" v-bind:data-id="games.GamePlayers[0].id">Join In</a></td>
+                    <td v-if="games.GamePlayers.length == 2"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email" v-bind:data-id="games.GamePlayers[0].id">Join</a>
+                    <a v-bind:href='"game.html?gp="+games.GamePlayers[1].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[1].player.email" v-bind:data-id="games.GamePlayers[1].id" >Join</a></td>
                 </tr>
-            </table>
+            </table>    
             <table class="tableScores">
                 <caption>
                     <h3>Leaderboard...</h3>

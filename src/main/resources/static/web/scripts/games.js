@@ -44,6 +44,7 @@ var myApp = new Vue({
                     console.log('Request success: ', data);
                     if (data.status == 200){
                         myApp.getDataGames();
+                  
                     }
                     else{
                         alert("error login in")
@@ -66,6 +67,8 @@ var myApp = new Vue({
                     console.log('Request success: ', data);
                     if (data.status == 200){
                         myApp.playerStatus = false;
+                        myApp.ourData.playerEmail = "";
+                        myApp.ourData.password = "";
                     }
                     else{
                         alert("Error login in")
@@ -90,7 +93,9 @@ var myApp = new Vue({
                     if (this.dataGames.username != null){
                         console.log("deberia canvair a true")
                         this.playerStatus = true;
-                    }
+                        this.ourData.playerEmail = this.dataGames.username.email;
+                        this.ourData.password = this.dataGames.username.password;
+                        }
                     else{
                         this.playerStatus=false;
                     }
@@ -151,8 +156,10 @@ var myApp = new Vue({
             return response.json();
         }).then(function(json) {
             console.log('parsed json', json)
+            myApp.getDataForm();
         }).catch(function(ex) {
             console.log('parsing failed', ex)
+            alert("error signing up")
       
         });
     },
@@ -182,6 +189,7 @@ computed: {
 created: function () {
     this.getDataClass();
     this.getDataGames();
+    
 },
 
 });

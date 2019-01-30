@@ -23,7 +23,6 @@
   tr:nth-child(-n+1)>td {
     border: none;
     background: hsla(177, 85%, 57%, 0.473);
-
   }
 
   td:first-child {
@@ -34,8 +33,12 @@
 
 
   table {
-
     border-collapse: collapse;
+
+  }
+
+  .tbOwner{
+    transform: perspective(700px) rotateX(40deg);
   }
 
 
