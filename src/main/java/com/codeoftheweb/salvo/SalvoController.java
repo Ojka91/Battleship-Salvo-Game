@@ -129,8 +129,7 @@ public class SalvoController {
 
     //method that looks for current user
     private Player isAuth (Authentication authentication){
-
-            return playerRepository.findByPlayerEmail(authentication.getName());
+           return playerRepository.findByPlayerEmail(authentication.getName());
 
     }
     private Map<String, Object> makeMap(String key, Object value) {
@@ -145,30 +144,39 @@ public class SalvoController {
 
     // END -------COMMON METHODS -------//
 
-    @RequestMapping("/game_view/{gameId}")
-    public Map<String, Object> getGameView(@PathVariable Long gameId) {
-        GamePlayer gamePlayer = gamePlayerRepository.getOne(gameId);
+    @RequestMapping("/game_view/{gpId}")
+    public Map<String, Object> getGameView(@PathVariable Long gpId, Authentication authentication) {
+           List<Long> gps = isAuth(authentication).getGamePlayers()
+                   .stream()
+                   .map(gp->gp.getId())
+                   .collect(toList());
 
-        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", gamePlayer.getGame().getId());
-        dto.put("created", gamePlayer.getGame().getDate());
-        dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream()
-                .map(gp -> gamePlayerDTO(gp))
-                .collect(toList()));
-        dto.put("shipsOwner", gamePlayer.getShips()
-                .stream()
-                .map(sh -> shipDTO(sh))
-                .collect(toList()));
-        dto.put("salvoesOwner", gamePlayer.getSalvos()
-                .stream()
-                .map(sa -> salvoDTO(sa))
-                .collect(toList()));
-        dto.put("salvoesEnemy", getOpponent(gamePlayer).getSalvos()
-                .stream()
-                .map(en -> salvoDTO(en))
-                .collect(toList()));
+        if (gps.contains(gpId)){
+            GamePlayer gamePlayer = gamePlayerRepository.getOne(gpId);
 
-        return dto;
+            Map<String, Object> dto = new LinkedHashMap<String, Object>();
+            dto.put("id", gamePlayer.getGame().getId());
+            dto.put("created", gamePlayer.getGame().getDate());
+            dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream()
+                    .map(gp -> gamePlayerDTO(gp))
+                    .collect(toList()));
+            dto.put("shipsOwner", gamePlayer.getShips()
+                    .stream()
+                    .map(sh -> shipDTO(sh))
+                    .collect(toList()));
+            dto.put("salvoesOwner", gamePlayer.getSalvos()
+                    .stream()
+                    .map(sa -> salvoDTO(sa))
+                    .collect(toList()));
+            dto.put("salvoesEnemy", getOpponent(gamePlayer).getSalvos()
+                    .stream()
+                    .map(en -> salvoDTO(en))
+                    .collect(toList()));
+
+            return dto;
+        }else{
+            return makeMap("error", HttpStatus.UNAUTHORIZED);
+        }
     }
     @Autowired
     private PasswordEncoder passwordEncoder;

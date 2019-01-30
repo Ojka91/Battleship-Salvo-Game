@@ -29,11 +29,11 @@
                 <span> or </span>
                 <button v-on:click="fillData()">SignUp</button>
             </form>
-        </div >
+        </div>
         <div v-if="playerStatus == true" class="formLogIn">
             <h2>Welcome {{dataGames.username.email}}</h2>
-      
-        <button v-on:click="logOut()">Logout</button>
+
+            <button v-on:click="logOut()">Logout</button>
         </div>
 
         <div class="containerScores">
@@ -58,11 +58,17 @@
                     <td v-if="games.GamePlayers.length == 2 && games.GamePlayers[1].id>games.GamePlayers[0].id">{{games.GamePlayers[1].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">{{games.GamePlayers[0].player.username}}</td>
                     <td v-if="games.GamePlayers.length == 1">Waiting for opponent...</td>
-                    <td v-if="games.GamePlayers.length == 1"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email" v-bind:data-id="games.GamePlayers[0].id">Join In</a></td>
-                    <td v-if="games.GamePlayers.length == 2"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email" v-bind:data-id="games.GamePlayers[0].id">Join</a>
-                    <a v-bind:href='"game.html?gp="+games.GamePlayers[1].id' role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[1].player.email" v-bind:data-id="games.GamePlayers[1].id" >Join</a></td>
+                    <td v-if="games.GamePlayers.length == 1"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id'
+                            role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email"
+                            v-bind:data-id="games.GamePlayers[0].id">Join In</a></td>
+                    <td v-if="games.GamePlayers.length == 2"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id'
+                            role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email"
+                            v-bind:data-id="games.GamePlayers[0].id">Join</a>
+                        <a v-bind:href='"game.html?gp="+games.GamePlayers[1].id' role="button" class="btn btn-primary"
+                            v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[1].player.email"
+                            v-bind:data-id="games.GamePlayers[1].id">Join</a></td>
                 </tr>
-            </table>    
+            </table>
             <table class="tableScores">
                 <caption>
                     <h3>Leaderboard...</h3>
