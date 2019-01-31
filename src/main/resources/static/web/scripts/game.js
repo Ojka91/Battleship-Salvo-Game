@@ -24,6 +24,7 @@ var myApp = new Vue({
             fetch('/api/game_view/' + this.gpURL)
                 .then((res) => res.json())
                 .then((json) => {
+                    alert("hi");
                     this.data = json;
                     console.log(this.data);
                     this.init();
@@ -31,7 +32,7 @@ var myApp = new Vue({
                 })
                 .catch((err) => {
                     //    text.append(data.message);
-                    alert("don't cheat bitch");
+                    alert("don't cheat bitch: " + err);
                     window.location.href = "games.html";
                     console.log(err);
                 })
