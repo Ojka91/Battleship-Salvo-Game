@@ -57,7 +57,7 @@ public class SalvoController {
                 scores.put("Losses", gp.getPlayer().getScore().stream().filter(sc -> sc.getPoints() == 0).count());
                 scores.put("Draw", gp.getPlayer().getScore().stream().filter(sc -> sc.getPoints() == 0.5).count());
                 scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getPoints()).sum());
-                dto.put(gp.getPlayer().getPlayerUsername(), scores);
+                dto.put(gp.getPlayer().getPlayerEmail(), scores);
             }
         }
 
@@ -168,10 +168,15 @@ public class SalvoController {
                     .stream()
                     .map(sa -> salvoDTO(sa))
                     .collect(toList()));
-            dto.put("salvoesEnemy", getOpponent(gamePlayer).getSalvos()
+          if(getOpponent(gamePlayer) != null){  dto.put("salvoesEnemy", getOpponent(gamePlayer)
+                    .getSalvos()
                     .stream()
                     .map(en -> salvoDTO(en))
                     .collect(toList()));
+          }
+          else{
+              dto.put("salvoesEnemy", null);
+          }
 
             return dto;
         }else{
@@ -187,17 +192,40 @@ public class SalvoController {
            @RequestBody Player player) {
 
         if ( player.getPlayerEmail().isEmpty() || player.getPassword().isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(makeMap("error","Missing data" ), HttpStatus.FORBIDDEN);
         }
 
         if (playerRepository.findByPlayerEmail(player.getPlayerEmail()) !=  null) {
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(makeMap("error","Name already in use"), HttpStatus.FORBIDDEN);
         }
 
         playerRepository.save(new Player(player.getPlayerEmail(), player.getPassword()));
         return new ResponseEntity<>(makeMap("player", player.getPlayerEmail()), HttpStatus.CREATED);
 
     }
+
+
+
+
+
+    @RequestMapping(path = "/games", method = RequestMethod.POST)
+    public ResponseEntity<Object> createGame(Authentication authentication){
+
+
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("error","not logged in"), HttpStatus.UNAUTHORIZED);
+        }
+        else{
+            Game game = new Game();
+            gameRepository.save(game);
+            GamePlayer gp = new GamePlayer(game, isAuth(authentication));
+            gamePlayerRepository.save(gp);
+            return new ResponseEntity<>(makeMap("gpId",gp.getId()), HttpStatus.CREATED);
+        }
+
+
+    }
+
 
 
 

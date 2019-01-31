@@ -30,9 +30,10 @@ var myApp = new Vue({
 
                 })
                 .catch((err) => {
+                    //    text.append(data.message);
+                    alert("don't cheat bitch");
+                    window.location.href = "games.html";
                     console.log(err);
-                   //    text.append(data.message);
-                    console.log("errordimierda");
                 })
         },
 

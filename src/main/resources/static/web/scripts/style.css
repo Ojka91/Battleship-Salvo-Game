@@ -85,3 +85,13 @@
  .waterSplash{
   height: 20px;
  }
+
+ .formLogIn{
+   margin-bottom: 30px;
+   padding-bottom: 10px;
+   background-color: rgba(127, 205, 211, 0.637);
+   border: 2px solid grey;
+    text-align: center;
+   
+ }
+

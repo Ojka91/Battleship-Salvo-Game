@@ -262,8 +262,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/web/games.html").permitAll()
                 .antMatchers("/web/game.html").hasAnyAuthority("USER")
                 .antMatchers("/api/game_view/**").hasAuthority("USER")
+                .antMatchers("/api/games").hasAnyAuthority("USER")
                 .antMatchers("/api/leaderboard").permitAll()
                 .antMatchers("/api/players").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+
 
                 .and()
                 .formLogin()
@@ -273,6 +276,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 http.logout().logoutUrl("/api/logout");
 
+
+        http.headers().frameOptions().disable();
 
         // turn off checking for CSRF tokens
         http.csrf().disable();

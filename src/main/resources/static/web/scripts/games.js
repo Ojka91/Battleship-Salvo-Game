@@ -105,6 +105,30 @@ var myApp = new Vue({
                 })
         },
 
+        createGame(){
+            fetch("/api/games", {
+
+                method: 'POST',
+            })
+            .then(function (data) {
+                console.log('Request success: ', data);
+                if (data.status == 201) {
+                   return data.json();
+                } else {
+                    alert("Error creting game")
+                }
+
+
+            }).then(function(data){
+                myApp.getDataGames();
+                gpId= data.gpId;
+                console.log(gpId);
+            })
+            .catch(function (error) {
+                console.log('Request failure: ', error);
+            });
+        },
+
         getBody(json) {
             var body = [];
             for (var key in json) {
