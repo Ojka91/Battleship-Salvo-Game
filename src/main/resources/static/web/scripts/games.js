@@ -93,6 +93,7 @@ var myApp = new Vue({
                         this.playerStatus = true;
                         this.ourData.playerEmail = this.dataGames.username.email;
                         this.ourData.password = this.dataGames.username.password;
+                        
                     } else {
                         this.playerStatus = false;
                     }
@@ -120,14 +121,27 @@ var myApp = new Vue({
 
 
             }).then(function(data){
-                myApp.getDataGames();
+                
                 gpId= data.gpId;
+               
+                window.location = "game.html?gp="+gpId;
                 console.log(gpId);
             })
             .catch(function (error) {
                 console.log('Request failure: ', error);
             });
         },
+
+        sound(){
+            if(document.getElementById("audio").muted == false){
+                document.getElementById('audio').muted = true;
+
+            }
+            else{
+                document.getElementById("audio").muted = false;
+                }
+               
+            },
 
         getBody(json) {
             var body = [];

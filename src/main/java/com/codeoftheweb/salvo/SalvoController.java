@@ -160,14 +160,24 @@ public class SalvoController {
             dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream()
                     .map(gp -> gamePlayerDTO(gp))
                     .collect(toList()));
+            if (gamePlayer.getShips().size() > 0){
             dto.put("shipsOwner", gamePlayer.getShips()
                     .stream()
                     .map(sh -> shipDTO(sh))
                     .collect(toList()));
-            dto.put("salvoesOwner", gamePlayer.getSalvos()
-                    .stream()
-                    .map(sa -> salvoDTO(sa))
-                    .collect(toList()));
+            }
+            else{
+                dto.put("shipsOwner", null);
+            }
+            if (gamePlayer.getSalvos().size() > 0){
+                dto.put("salvoesOwner", gamePlayer.getSalvos()
+                        .stream()
+                        .map(sa -> salvoDTO(sa))
+                        .collect(toList()));
+            }
+            else{
+                dto.put("salvoesOwner", null);
+            }
           if(getOpponent(gamePlayer) != null){  dto.put("salvoesEnemy", getOpponent(gamePlayer)
                     .getSalvos()
                     .stream()
