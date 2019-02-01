@@ -19,7 +19,7 @@
     <audio id ="audio" autoplay  src="/web/styles/assets/AOE.mp3" type="audio/mpeg">
     </audio>
     <div id="app">
-            <button class="btn btn-primary" v-on:click="sound()">sound</button>
+            <button class="btn btn-primary sticky-top" v-on:click="sound()">sound</button>
         <header>
             <p class="title">
                 Classification
@@ -66,13 +66,18 @@
                     <td v-if="games.GamePlayers.length == 1">Waiting for opponent...</td>
                     <td v-if="games.GamePlayers.length == 1"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id'
                             role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email"
-                            v-bind:data-id="games.GamePlayers[0].id">Rejoin</a></td>
+                            v-bind:data-id="games.GamePlayers[0].id">Rejoin</a>
+                            <a id="join" v-on:click="joinGame(games.id)" v-bind:data-gid="games.id" role="button" class="btn btn-warning" v-if="playerStatus == true && ourData.playerEmail != games.GamePlayers[0].player.email">Join</a>
+                        
+                        
+                        </td>
                     <td v-if="games.GamePlayers.length == 2"> <a v-bind:href='"game.html?gp="+games.GamePlayers[0].id'
                             role="button" class="btn btn-primary" v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[0].player.email"
                             v-bind:data-id="games.GamePlayers[0].id">ReJoin</a>
                         <a v-bind:href='"game.html?gp="+games.GamePlayers[1].id' role="button" class="btn btn-primary"
                             v-if="playerStatus == true && ourData.playerEmail == games.GamePlayers[1].player.email"
                             v-bind:data-id="games.GamePlayers[1].id">ReJoin</a></td>
+                            
                 </tr>
             </table>
             <table class="tableScores">

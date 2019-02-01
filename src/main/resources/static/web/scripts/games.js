@@ -8,6 +8,7 @@ var myApp = new Vue({
             password: "",
         },
         playerStatus: false,
+        idGame: "",
 
 
     },
@@ -104,6 +105,31 @@ var myApp = new Vue({
                     //text.append(data.message);
                     console.log("errordimierda");
                 })
+        },
+        joinGame(id){
+            fetch("/api/game/"+id+"/players", {
+
+                method: 'POST',
+            })
+            .then(function (data) {
+                console.log('Request success: ', data);
+                alert(id);
+                if (data.status == 201) {
+                   return data.json();
+                } else {
+                    alert("Error joining game")
+                }
+
+            }).then(function(data){   
+                console.log(data);
+            
+                window.location = "game.html?gp="+data.gpId;
+            })
+            .catch(function (error) {
+                console.log('Request failure: ', error);
+
+            });
+        
         },
 
         createGame(){
