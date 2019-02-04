@@ -36,6 +36,11 @@ public class Ship {
         gamePlayer.setShips(this);
     }
 
+    public Ship(String shipType, List<String> shipPosition) {
+        this.shipType = shipType;
+        this.shipPosition = shipPosition;
+    }
+
 
     public Long getId() {
         return id;

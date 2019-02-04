@@ -9,8 +9,7 @@ var myApp = new Vue({
         },
         playerStatus: false,
         idGame: "",
-
-
+       
     },
 
 
@@ -113,7 +112,7 @@ var myApp = new Vue({
             })
             .then(function (data) {
                 console.log('Request success: ', data);
-                alert(id);
+             
                 if (data.status == 201) {
                    return data.json();
                 } else {

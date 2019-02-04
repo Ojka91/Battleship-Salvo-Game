@@ -7,6 +7,17 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
+        shipPosition:[
+            {
+                shipType: "destructor",
+                shipPosition:["A1", "A2", "A3"]
+            },
+            {
+                shipType:"carrier",
+                shipPosition:["C3", "D3", "E3", "F3", "G3"]
+            },
+        ]
+
     },
 
     methods: {
@@ -19,19 +30,46 @@ var myApp = new Vue({
 
         },
 
+        placeShips(id){
+            ship = document.getElementById(id);
+            ship.classList.remove("btn-primary");
+            ship.classList.add("btn-warning");
+
+        },
+
         sound(){
             if(document.getElementById("audio").muted == false){
                 document.getElementById('audio').muted = true;
 
             }
-            
-                
-            
             else{
                 document.getElementById("audio").muted = false;
                 }
                
             },
+
+            getShips(){
+                fetch('/api/games/players/'+myApp.gpURL+'/ships', {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(myApp.shipPosition)
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (json) {
+                    console.log('parsed json', json)
+                   myApp.getData();
+                }).catch(function (ex) {
+                    console.log('parsing failed', ex)
+                    alert("error signing up"+ ex);
+    
+                });
+
+            },
+
+            
 
 
         getData: function () {
@@ -47,7 +85,7 @@ var myApp = new Vue({
                 })
                 .catch((err) => {
                     //    text.append(data.message);
-                    alert("don't cheat bitch: " +err);
+                    alert("don't cheat bitch: ");
                     window.location.href = "games.html";
                     console.log(err);
                 })

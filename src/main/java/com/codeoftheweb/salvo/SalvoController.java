@@ -25,6 +25,9 @@ public class SalvoController {
     private GamePlayerRepository gamePlayerRepository;
 
     @Autowired
+    private ShipRepository shipRepository;
+
+    @Autowired
     private PlayerRepository playerRepository;
 
     @RequestMapping("/games")
@@ -238,11 +241,6 @@ public class SalvoController {
 
     @RequestMapping(path = "/game/{gId}/players", method = RequestMethod.POST)
     public ResponseEntity<Object> joinGame(@PathVariable Long gId, Authentication authentication){
-//        List <Long> gamesId = gamePlayerRepository
-//                .findAll()
-//                .stream()
-//                .map(game -> game.getId())
-//                .collect(toList());
 
         if(isAuth(authentication) !=null){
             if(gameRepository.getOne(gId) != null){
@@ -264,6 +262,41 @@ public class SalvoController {
         }
 
 
+    }
+
+
+
+    @RequestMapping(path = "/games/players/{gamePlayerId}/ships", method = RequestMethod.POST)
+    public ResponseEntity<Object> createShips(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody List<Ship> ships) {
+
+        if(isAuth(authentication) !=null){
+            if(gamePlayerRepository.getOne(gamePlayerId) != null){
+                if(gamePlayerRepository.getOne(gamePlayerId) != null){
+                    if(gamePlayerRepository.getOne(gamePlayerId).getShips() != null){
+                        GamePlayer currentGp = gamePlayerRepository.getOne(gamePlayerId);
+
+                        for (Ship ship: ships) {
+                            ship.setGamePlayers(currentGp);
+                            shipRepository.save(ship);
+                        }
+                        return  new ResponseEntity<>(makeMap("succes", "ships placed"), HttpStatus.CREATED);
+                    }
+                    else{
+                        return new ResponseEntity<>(makeMap("error", "already ships placed"), HttpStatus.FORBIDDEN);
+                    }
+
+                }
+                else{
+                    return new ResponseEntity<>(makeMap("error", "this is not your game"), HttpStatus.UNAUTHORIZED);
+                }
+            }
+            else{
+                return new ResponseEntity<>(makeMap("error", "no gp with given ID"), HttpStatus.UNAUTHORIZED);
+            }
+        }
+        else{
+            return new ResponseEntity<>(makeMap("error", "none is logged in"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }

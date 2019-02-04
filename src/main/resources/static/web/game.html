@@ -23,7 +23,8 @@
     </span>
     <div id="app">
             <button class="btn btn-primary sticky-top" v-on:click="sound()">sound</button>
-        <header>
+            <button class="btn btn-danger sticky-top" v-on:click="getShips()">ship ajax</button>
+            <header>
             <p class="title">
                 Battleship
             </p>
@@ -46,6 +47,7 @@
 
 
         <div class="maincontainer" id="maincontainer">
+         
 
 
             <!-- <div class="owner" id="owner"> -->
@@ -65,8 +67,14 @@
 
                 </table>
 
-            <!-- </div> -->
-         <!-- <div class="opponent" id="opponent"> -->
+                <div id="ships" class="ships">
+                    <p class="btn btn-primary" v-on:click="placeShips('carrier')" id="carrier">Carrier</p>
+                    <p class="btn btn-primary" v-on:click="placeShips('battleShip')" id="battleShip">Battleship</p>
+                    <p class="btn btn-primary" v-on:click="placeShips('submarine')" id="submarine">Submarine</p>
+                    <p class="btn btn-primary" v-on:click="placeShips('destructor')" id="destructor">Destructor</p>
+                    <p class="btn btn-primary" v-on:click="placeShips('patrol')" id="patrol">Patrol Boat</p>
+                    <p class="btn btn-danger">Done!</p>
+                </div>
                 <table class="tbOwner" id="tbOwner">
                     <caption>
                         <h3>Opponent...</h3>
@@ -82,8 +90,11 @@
 
                 </table>
 
+ 
 
-            <!-- </div> -->
+
+
+
 
         </div>
     </div>
