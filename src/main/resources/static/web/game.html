@@ -58,7 +58,7 @@
                     </caption>
                     <tr v-for="(data1, index) in numbers">
 
-                        <td v-for="(data2, index2) in letters" v-bind:id="data2+data1">
+                        <td v-for="(data2, index2) in letters" v-bind:id="data2+data1" v-on:click="placeAShip(data2, data1)">
                             <span v-if="index==0 || index2==0">{{data1 + data2}}</span>
                         </td>
 
@@ -73,6 +73,7 @@
                     <p class="btn btn-primary" v-on:click="placeShips('submarine')" id="submarine">Submarine</p>
                     <p class="btn btn-primary" v-on:click="placeShips('destructor')" id="destructor">Destructor</p>
                     <p class="btn btn-primary" v-on:click="placeShips('patrol')" id="patrol">Patrol Boat</p>
+                    <p class="btn btn-success" v-on:click="rotateShip()" id="rotateShip">Rotate Ship</p>
                     <p class="btn btn-danger">Done!</p>
                 </div>
                 <table class="tbOwner" id="tbOwner">
