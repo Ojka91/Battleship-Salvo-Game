@@ -90,11 +90,14 @@
   .carrier{
     background-color: yellow;
   }
-  .patrolBoat{
+  .patrol{
     background-color: green;
   }
   .destructor{
     background-color: purple;
+  }
+  .battleShip{
+    background-color: blue;
   }
  .fireGif{
    height: 25px;

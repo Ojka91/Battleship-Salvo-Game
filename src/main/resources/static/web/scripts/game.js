@@ -8,17 +8,19 @@ var myApp = new Vue({
         ownerGame: "",
         opponent: "",
         starting: 0,
+        shipsDone: false,
 
+        //ship Orientation
+        shipAlign: 1, //0 = vertical, 1 = horizontal
+        shipCollision: [],
 
-        shipAlign: 1, //0 = horizontal, 1 = vertical
-
-        shipButtons: {
+        shipButtons: [{
             carrier: 0,
             battleShip: 0,
             submarine: 0,
             destructor: 0,
             patrol: 0,
-        },
+        }],
         shipLength: {
             carrier: 5,
             battleShip: 4,
@@ -51,12 +53,18 @@ var myApp = new Vue({
 
         },
 
+        shipsEnd() {
+
+            myApp.shipsDone = true;
+
+
+        },
         placeShips(id) {
             if (!document.getElementById(id).classList.contains("btn-secondary")) {
                 console.log("SHIP: " + id);
                 myApp.shipName = id;
                 shipName = document.getElementById(id);
-                myApp.shipButtons[id] == 1;
+                myApp.shipButtons[0][id] = 1;
 
                 carrier = document.getElementById("carrier").classList.remove("btn-warning");
                 carrier = document.getElementById("carrier").classList.add("btn-primary");
@@ -77,7 +85,11 @@ var myApp = new Vue({
                     myApp.shipToPlace = myApp.shipLength[id];
 
                 }
+
+
+
             }
+
 
 
 
@@ -91,19 +103,17 @@ var myApp = new Vue({
                 myApp.shipAlign = 0;
             }
         },
-
-        placeAShip(letters, numbers) {
-            if (myApp.shipPlacing == true) {
-                //shipAlign 0 == horitzontal
-                if (myApp.shipAlign == 0) {
+        mouseOut(letters, numbers) {
+            if (myApp.shipPlacing == true && numbers != "") {
+                //position vertical ships (shipAlign = 0)
+                if (myApp.shipAlign == 0 && document.getElementById(letters + (numbers + myApp.shipToPlace - 1)) != null) {
                     for (var x = 0; x < myApp.shipToPlace; x++) {
-                        document.getElementById(letters + (numbers + x)).classList.add("carrier");
-                        document.getElementById(myApp.shipName).classList.remove("btn-warning");
-                        document.getElementById(myApp.shipName).classList.add("btn-secondary");
-                        myApp.shipPlacing = false;
+                        document.getElementById(letters + (numbers + x)).classList.remove(myApp.shipName);
+
+
                     }
                 } else {
-
+                    //position horizontal ships (shipAlign = 1)
                     for (var y = 0; y < myApp.letters.length; y++) {
                         if (myApp.letters[y] == letters) {
                             myApp.starting = y;
@@ -111,12 +121,140 @@ var myApp = new Vue({
 
                         }
                     }
-                    for (var z = 0; z < myApp.shipToPlace; z++) {
-                        document.getElementById((myApp.letters[myApp.starting + z]) + numbers).classList.add("carrier");
-                        document.getElementById(myApp.shipName).classList.add("btn-secondary");
-                        document.getElementById(myApp.shipName).classList.remove("btn-warning");
-                        myApp.shipPlacing = false;
+                    if (document.getElementById((myApp.letters[myApp.starting + myApp.shipToPlace - 1]) + numbers) != null) {
 
+                        for (var z = 0; z < myApp.shipToPlace; z++) {
+                            document.getElementById((myApp.letters[myApp.starting + z]) + numbers).classList.remove(myApp.shipName);
+
+
+
+
+                        }
+                    }
+                }
+
+            }
+
+        },
+
+        mouseOver(letters, numbers) {
+            myApp.shipCollision = [];
+            if (myApp.shipPlacing == true) {
+                //position vertical ships (shipAlign = 0)
+                if (myApp.shipAlign == 0) {
+
+                    for (var x = 0; x < myApp.shipToPlace; x++) {
+                        if (numbers ==""||letters==""){
+                            myApp.shipCollision.push(1);
+                        }
+                       
+                        else{
+                            console.log(numbers);
+                            if (document.getElementById(letters + (numbers + myApp.shipToPlace - 1)) != null && document.getElementById(letters + (numbers + x)).classList.contains("occupied")) {
+    
+                                myApp.shipCollision.push(1);
+                            } else {
+    
+                                myApp.shipCollision.push(0);
+                            }
+                        }
+                    }
+                    for (var x = 0; x < myApp.shipToPlace; x++) {
+                        console.log(numbers, numbers + x);
+
+                        if(numbers != ""){
+
+                            if (document.getElementById(letters + (numbers + myApp.shipToPlace - 1)) != null && !document.getElementById(letters + (numbers + x)).classList.contains("occupied") && !myApp.shipCollision.includes(1)) {
+                                document.getElementById(letters + (numbers + x)).classList.add(myApp.shipName);
+                           
+    
+                            }
+                            else{
+                                myApp.shipCollision.push(1);
+                            }
+                        }
+
+
+                    }
+                } else {
+                    //position horizontal ships (shipAlign = 1)
+                    for (var y = 0; y < myApp.letters.length; y++) {
+                        if (myApp.letters[y] == letters) {
+                            myApp.starting = y;
+
+
+                        }
+                    }
+
+                    for (var x = 0; x < myApp.shipToPlace; x++) {
+                        if(letters==""||numbers==""){
+                            myApp.shipCollision.push(1);
+                        }
+                       
+                        if (document.getElementById((myApp.letters[myApp.starting + myApp.shipToPlace  - 1]) + numbers) != null && document.getElementById((myApp.letters[myApp.starting  +x]) + numbers).classList.contains("occupied")) {
+
+                            myApp.shipCollision.push(1);
+                        } else {
+
+                            myApp.shipCollision.push(0);
+                        }
+                    }
+
+
+                    for (var z = 0; z < myApp.shipToPlace; z++) {
+
+                        if (document.getElementById((myApp.letters[myApp.starting + myApp.shipToPlace - 1]) + numbers) != null && !document.getElementById(letters + numbers).classList.contains("occupied") && !myApp.shipCollision.includes(1)) {
+                            document.getElementById((myApp.letters[myApp.starting + z]) + numbers).classList.add(myApp.shipName);
+
+                        }
+
+
+
+
+                    }
+                }
+
+            }
+
+
+        },
+
+        placeAShip(letters, numbers) {
+            if (myApp.shipPlacing == true) {
+                //position vertical ships (shipAlign = 0)
+                if (myApp.shipAlign == 0) {
+                    console.log(myApp.numbers[numbers+1+myApp.shipToPlace])
+                    if(!myApp.shipCollision.includes(1)){
+                   
+                        for (var x = 0; x < myApp.shipToPlace; x++) {
+                            document.getElementById(letters + (numbers + x)).classList.add(myApp.shipName, "occupied");
+                            document.getElementById(myApp.shipName).classList.remove("btn-warning");
+                            document.getElementById(myApp.shipName).classList.add("btn-secondary");
+                            myApp.shipPlacing = false;
+                        }
+
+                    }
+                    else{
+                      
+                    }
+                } else {
+                    //position horizontal ships (shipAlign = 1)
+                    for (var y = 0; y < myApp.letters.length; y++) {
+                        if (myApp.letters[y] == letters) {
+                            myApp.starting = y;
+
+
+                        }
+                    }
+                    if(!myApp.shipCollision.includes(1)){
+
+                        for (var z = 0; z < myApp.shipToPlace; z++) {
+                            document.getElementById((myApp.letters[myApp.starting + z]) + numbers).classList.add(myApp.shipName, "occupied");
+                            document.getElementById(myApp.shipName).classList.add("btn-secondary");
+                            document.getElementById(myApp.shipName).classList.remove("btn-warning");
+                            myApp.shipPlacing = false;
+    
+                        }
                     }
                 }
 
