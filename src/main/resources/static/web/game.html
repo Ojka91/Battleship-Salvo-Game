@@ -23,7 +23,7 @@
     </span>
     <div id="app">
         <button class="btn btn-primary sticky-top" v-on:click="sound()">sound</button>
-        <button class="btn btn-danger sticky-top" v-on:click="getShips()">ship ajax</button>
+       
         <header>
             <p class="title">
                 Battleship
@@ -66,7 +66,7 @@
 
 
             </table>
-<div v-if="shipsDone == false">
+<div v-show="shipsDone == false">
             <button class="btn btn-success" v-on:click="rotateShip()" id="rotateShip">Rotate Ship</button>
             <div id="ships" class="ships" >
                 <p class="btn btn-primary" v-on:click="placeShips('carrier')" id="carrier">Carrier</p>
@@ -74,10 +74,10 @@
                 <p class="btn btn-primary" v-on:click="placeShips('submarine')" id="submarine">Submarine</p>
                 <p class="btn btn-primary" v-on:click="placeShips('destructor')" id="destructor">Destructor</p>
                 <p class="btn btn-primary" v-on:click="placeShips('patrol')" id="patrol">Patrol Boat</p>
-                <p class="btn btn-danger" v-on:click="shipsEnd()">Done!</p>
+                <p class="btn btn-danger"  v-on:click="getShips()">Done!</p>
             </div>
         </div>
-            <table class="tbOwner" id="tbOwner" v-if="shipsDone">
+            <table class="tbOwner" id="tbOwner" v-show="shipsDone">
                 <caption>
                     <h3>Opponent...</h3>
                 </caption>
