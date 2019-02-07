@@ -7,11 +7,16 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
+        turn: 2,
 
+        salvoPosition: [],
+        salvoInfo: [],
+        firesLeft: 5,
+        firing: false,
+        firesReady: false,
         //---ship placement variables ---//
         starting: 0, //start point mouse horizontal direction
         shipsDone: false, //check out if has to place ships
-
         //ship Orientation
         shipAlign: 1, //0 = vertical, 1 = horizontal
         shipCollision: [], //check out if ship can be placed
@@ -59,7 +64,7 @@ var myApp = new Vue({
 
                     this.data = json;
                     console.log(this.data);
-                    this.init();
+                    myApp.init();
 
                 })
                 .catch((err) => {
@@ -139,20 +144,74 @@ var myApp = new Vue({
 
         printShips: function () {
             if (this.data.shipsOwner != null) {
+                console.log("inside printing");
                 for (var x = 0; x < this.data.shipsOwner.length; x++) {
                     for (var y = 0; y < this.data.shipsOwner[x].position.length; y++) {
-                        document.getElementById(this.data.shipsOwner[x].position[y]).className += this.data.shipsOwner[x].type;
+                        document.getElementById(this.data.shipsOwner[x].position[y]).className = this.data.shipsOwner[x].type;
                     }
                 }
                 myApp.shipsDone = true;
+                myApp.firesReady = true;
             } else {
                 myApp.shipsDone = false;
             }
 
         },
 
+        placeFires(letters, numbers) {
+            if (myApp.firesLeft > 0) {
+                if (!myApp.salvoPosition.includes(letters + numbers)) {
+
+                    myApp.salvoPosition.push(letters + numbers);
+
+                    var img = document.createElement("img");
+                    img.className = "fireGif";
+                    img.src = "/web/styles/assets/fireGif.gif";
+                    document.getElementById(letters + numbers + "E").append(img);
+                    myApp.firesLeft -= 1;
+
+                } else {
+                    alert("you already placed there");
+                } } else {
+                    alert("no more shots, FIRE them!");
+
+                }
+           
+        },
+
+        getSalvoData() {
+            myApp.salvoInfo = [{
+                turn: myApp.turn,
+                position: myApp.salvoPosition
+            }];
+
+            fetch('/api/games/players/' + myApp.gpURL + '/salvos', {
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(myApp.salvoInfo)
+            }).then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                console.log('parsed json', json)
+                console.log("halalala");
+                myApp.getData();
+                
+
+            }).catch(function (ex) {
+                console.log('parsing failed', ex)
+                alert("error posting ships" + ex);
+
+            });
+
+
+        },
+
         printOwnerSalvos: function () {
             if (this.data.salvoesOwner != null) {
+                console.log("inside print salvos");
                 for (var x = 0; x < this.data.salvoesOwner.length; x++) {
                     for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
                         var img = document.createElement("img");

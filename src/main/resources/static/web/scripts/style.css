@@ -30,7 +30,12 @@
     background: hsla(177, 85%, 57%, 0.438);
 
   }
-
+.shotsLeft{
+  background-color: rgba(140, 176, 206, 0.479);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 10px;
+}
 
   table {
     border-collapse: collapse;
@@ -41,6 +46,22 @@
     transform: perspective(700px) rotateX(40deg);
   }
 
+  .fireState{
+    background-color: rgba(110, 219, 59, 0.582);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .fireDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 150px;
+    background-color: rgba(188, 216, 66, 0.575);
+    border: 2px rgba(114, 20, 20, 0.548) solid;
+    margin-top: 10px;
+  }
 
 .flex{
   display: flex;
