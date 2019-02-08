@@ -7,7 +7,7 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
-        turn: 2,
+        turn: 3,
 
         salvoPosition: [],
         salvoInfo: [],
@@ -22,13 +22,13 @@ var myApp = new Vue({
         shipCollision: [], //check out if ship can be placed
 
         //which ship I'm currently placing
-        shipButtons: [{
+        shipButtons: {
             carrier: 0,
             battleShip: 0,
             submarine: 0,
             destructor: 0,
             patrol: 0,
-        }],
+        },
 
         shipLength: {
             carrier: 5,
@@ -182,7 +182,7 @@ var myApp = new Vue({
         getSalvoData() {
             myApp.salvoInfo = [{
                 turn: myApp.turn,
-                position: myApp.salvoPosition
+                salvoPosition: myApp.salvoPosition
             }];
 
             fetch('/api/games/players/' + myApp.gpURL + '/salvos', {
@@ -196,7 +196,7 @@ var myApp = new Vue({
                 return response.json();
             }).then(function (json) {
                 console.log('parsed json', json)
-                console.log("halalala");
+                
                 myApp.getData();
                 
 
@@ -268,7 +268,7 @@ var myApp = new Vue({
 
                 myApp.shipName = id;
                 shipName = document.getElementById(id);
-                myApp.shipButtons[0][id] = 1;
+                
 
                 //first all buttons must have primary class
                 carrier = document.getElementById("carrier").classList.remove("btn-warning");
@@ -417,6 +417,7 @@ var myApp = new Vue({
                             myApp.shipPlacing = false; //and return to the false statmenet to start again
                             spv.push(letters + (numbers + x))
                         }
+                        myApp.shipButtons[myApp.shipName] = 1;
                         myApp.shipPosition.push({
                             shipType: myApp.shipName,
                             shipPosition: spv
@@ -443,6 +444,7 @@ var myApp = new Vue({
                             myApp.shipPlacing = false;
                             sph.push((myApp.letters[myApp.starting + z]) + numbers);
                         }
+                        myApp.shipButtons[myApp.shipName] = 1;
                         myApp.shipPosition.push({
                             shipType: myApp.shipName,
                             shipPosition: sph
@@ -451,9 +453,13 @@ var myApp = new Vue({
                 }
             }
         },
+
+     
+
         //------------------------end of ship placement---------------------//
 
     },
+
 
     created: function () {
         this.getURL();

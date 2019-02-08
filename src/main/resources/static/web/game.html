@@ -75,14 +75,14 @@
                     <p class="btn btn-primary" v-on:click="placeShips('submarine')" id="submarine">Submarine</p>
                     <p class="btn btn-primary" v-on:click="placeShips('destructor')" id="destructor">Destructor</p>
                     <p class="btn btn-primary" v-on:click="placeShips('patrol')" id="patrol">Patrol Boat</p>
-                    <p class="btn btn-danger" v-on:click="getShips()">Done!</p>
+                    <p class="btn btn-danger" v-on:click="getShips()"  v-show="!Object.values(shipButtons).includes(0)">Done!</p>
                 </div>
             </div>
             
             <div v-show="firesReady == true" class="fireDiv">
                     <p class="fireState">Place shots</p>
                 <p class ="shotsLeft">{{firesLeft}} Shots left</p>
-                <button class="btn btn-danger" v-on:click="getSalvoData()">FIRE!</button>
+                <button class="btn btn-danger" v-on:click="getSalvoData()" >FIRE!</button>
 
 
             </div>
