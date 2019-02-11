@@ -41,6 +41,12 @@
     border-collapse: collapse;
 
   }
+  .fireOver{
+    background-color: hsla(209, 73%, 38%, 0.801);
+  }
+  .enemyTb{
+    cursor: crosshair;
+  }
 
   .tbOwner{
     transform: perspective(700px) rotateX(40deg);

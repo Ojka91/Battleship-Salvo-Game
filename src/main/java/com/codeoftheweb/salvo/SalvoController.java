@@ -295,11 +295,12 @@ public class SalvoController {
         if (isAuth(authentication) != null) {
             if (gamePlayerRepository.getOne(gamePlayerId) != null) {
                 if (isAuth(authentication).getGamePlayers().contains(gamePlayerRepository.getOne(gamePlayerId))) {
-                    List<Integer> turn =  gamePlayerRepository.getOne(gamePlayerId).getSalvos()
+                    List<Integer> turns = gamePlayerRepository.getOne(gamePlayerId).getSalvos()
                             .stream()
                             .map(tn -> tn.getTurn())
                             .collect(toList());
-                    if (!turn.contains(3)) {
+
+                    if (!turns.contains(3)) {
                         GamePlayer currentGp = gamePlayerRepository.getOne(gamePlayerId);
                         for (Salvo salvo : salvos) {
                             salvo.setGamePlayerSalvo(currentGp);

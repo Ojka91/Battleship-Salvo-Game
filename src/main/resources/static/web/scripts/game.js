@@ -64,6 +64,7 @@ var myApp = new Vue({
 
                     this.data = json;
                     console.log(this.data);
+                    myApp.salvoInfo=[];
                     myApp.init();
 
                 })
@@ -141,6 +142,12 @@ var myApp = new Vue({
 
             }
         },
+        fireOver(letters, numbers){
+            document.getElementById(letters+numbers+"E").classList.add("fireOver");
+        },
+        fireOut(letters, numbers){
+            document.getElementById(letters+numbers+"E").classList.remove("fireOver");
+        },
 
         printShips: function () {
             if (this.data.shipsOwner != null) {
@@ -161,14 +168,20 @@ var myApp = new Vue({
         placeFires(letters, numbers) {
             if (myApp.firesLeft > 0) {
                 if (!myApp.salvoPosition.includes(letters + numbers)) {
+                    if(letters!=""&&numbers!=""){
 
-                    myApp.salvoPosition.push(letters + numbers);
+                        myApp.salvoPosition.push(letters + numbers);
+    
+                        var img = document.createElement("img");
+                        img.className = "fireGif";
+                        img.src = "/web/styles/assets/fireGif.gif";
+                        document.getElementById(letters + numbers + "E").append(img);
+                        myApp.firesLeft -= 1;
+                    }
+                    else{
+                        alert("can't place there there");
+                    }
 
-                    var img = document.createElement("img");
-                    img.className = "fireGif";
-                    img.src = "/web/styles/assets/fireGif.gif";
-                    document.getElementById(letters + numbers + "E").append(img);
-                    myApp.firesLeft -= 1;
 
                 } else {
                     alert("you already placed there");
@@ -194,15 +207,17 @@ var myApp = new Vue({
                 body: JSON.stringify(myApp.salvoInfo)
             }).then(function (response) {
                 return response.json();
+               
             }).then(function (json) {
                 console.log('parsed json', json)
-                
+                alert(json.error);
                 myApp.getData();
                 
 
             }).catch(function (ex) {
                 console.log('parsing failed', ex)
                 alert("error posting ships" + ex);
+              
 
             });
 
@@ -210,14 +225,26 @@ var myApp = new Vue({
         },
 
         printOwnerSalvos: function () {
+            if(document.getElementsByClassName("fireGif"!=null)){
+                var imgDelete=document.getElementsByClassName("fireGif");
+                while(imgDelete.length >0){
+                    imgDelete[0].parentNode.removeChild(imgDelete[0]);
+                    document.getElementsByClassName("fireGif").innerHTML = "";
+                }
+                console.log("in");
+
+            }
+       
             if (this.data.salvoesOwner != null) {
+
                 console.log("inside print salvos");
                 for (var x = 0; x < this.data.salvoesOwner.length; x++) {
                     for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
+                       
                         var img = document.createElement("img");
                         img.className = "fireGif";
                         img.src = "/web/styles/assets/fireGif.gif";
-                        document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
+                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
                     }
                 }
