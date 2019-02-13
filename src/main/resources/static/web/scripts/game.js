@@ -7,7 +7,7 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
-        turn: 3,
+        turn:5 ,
 
         salvoPosition: [],
         salvoInfo: [],
@@ -169,14 +169,23 @@ var myApp = new Vue({
             if (myApp.firesLeft > 0) {
                 if (!myApp.salvoPosition.includes(letters + numbers)) {
                     if(letters!=""&&numbers!=""){
+                        var gif = document.getElementsByClassName("fireGif");
+                        if(!document.getElementById(letters+numbers+"E").classList.contains("fired")){
+                            console.log(document.getElementById(letters+numbers+"E").classList.contains("fired"))
+                            myApp.salvoPosition.push(letters + numbers);
+        
+                            var img = document.createElement("img");
+                            img.className = "fireGif";
+                            img.src = "/web/styles/assets/fireGif.gif";
+                            document.getElementById(letters + numbers + "E").append(img);
+                            document.getElementById(letters + numbers + "E").classList.add("fired");
+                            myApp.firesLeft -= 1;
 
-                        myApp.salvoPosition.push(letters + numbers);
-    
-                        var img = document.createElement("img");
-                        img.className = "fireGif";
-                        img.src = "/web/styles/assets/fireGif.gif";
-                        document.getElementById(letters + numbers + "E").append(img);
-                        myApp.firesLeft -= 1;
+                        }
+                        else{
+                            alert("you already placed there");
+                        }
+
                     }
                     else{
                         alert("can't place there there");
@@ -246,6 +255,7 @@ var myApp = new Vue({
                         img.src = "/web/styles/assets/fireGif.gif";
                          document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
+                        document.getElementById(this.data.salvoesOwner[x].position[y] + "E").classList.add("fired");
                     }
                 }
 

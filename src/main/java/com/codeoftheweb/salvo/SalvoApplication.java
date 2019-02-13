@@ -268,6 +268,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
 
 
+
                 .and()
                 .formLogin()
                 .usernameParameter("playerEmail")

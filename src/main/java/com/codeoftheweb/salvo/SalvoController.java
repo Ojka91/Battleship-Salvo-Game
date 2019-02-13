@@ -10,7 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.Authenticator;
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -118,10 +120,66 @@ public class SalvoController {
         dto.put("turn", salvo.getTurn());
         dto.put("gp", salvo.getGamePlayerSalvo().getPlayer().getId());
         dto.put("position", salvo.getSalvoPosition());
+        if(getHits(salvo) !=null){
+            dto.put("hits", getHits(salvo));
+        }
+        if(getHits(salvo) !=null){
+           dto.put("hittedShips", getHits(salvo)
+           .stream()
+           .map(hit-> shipHit(hit,salvo))
+           .collect(toList()));
+        }
 
+       //    dto.put("sinks", );
 
         return dto;
     }
+//    private Map<String,Object> shipSinked(String hit, Salvo salvo) {
+//        Map<String, Object> dto = new LinkedHashMap<>();
+//        for (Ship ship: getOpponent(salvo.getGamePlayerSalvo()).getShips()) {
+//
+//
+//        }
+//
+//        return dto;
+//    }
+
+    private Map<String,Object> shipHit(String hit, Salvo salvo){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        for (Ship ship: getOpponent(salvo.getGamePlayerSalvo()).getShips()) {
+            if(ship.getShipPosition().contains(hit)){
+                dto.put(hit,ship.getShipType());
+            }
+
+        }
+        return dto;
+    }
+
+    private List<String> getHits (Salvo salvo){
+    GamePlayer enemy = getOpponent(salvo.getGamePlayerSalvo());
+    if(enemy != null){
+        List<String> salvoPositions = salvo.getSalvoPosition();
+        List<String> shipPositions = getShipsosition(enemy);
+
+
+        return (salvoPositions.stream()
+                .filter(salvos->shipPositions.contains(salvos))
+                .collect(Collectors.toList()));
+    }
+    else return null;
+
+    }
+
+
+    private List<String> getShipsosition(GamePlayer gamePlayer){
+        Set<Ship> ships = gamePlayer.getShips();
+
+        return ships.stream()
+                .map(ship->ship.getShipPosition())
+                .flatMap(cells->cells.stream()).collect(Collectors.toList());
+    }
+
+
 
     // -------COMMON METHODS -------//
     //method that look for the opponent GP
@@ -157,6 +215,9 @@ public class SalvoController {
                 .map(gp -> gp.getId())
                 .collect(toList());
 
+
+
+
         if (gps.contains(gpId)) {
             GamePlayer gamePlayer = gamePlayerRepository.getOne(gpId);
 
@@ -191,6 +252,12 @@ public class SalvoController {
             } else {
                 dto.put("salvoesEnemy", null);
             }
+//            if (gamePlayerRepository.getOne(gpId).getSalvos()!=null){
+//                dto.put("turn", gamePlayerRepository.getOne(gpId).)
+//            }
+//            else{
+//                dto.put("hits/sinks", null);
+//            }
 
             return dto;
         } else {
