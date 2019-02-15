@@ -7,7 +7,7 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
-        turn:5 ,
+        turn: 6,
 
         salvoPosition: [],
         salvoInfo: [],
@@ -71,7 +71,7 @@ var myApp = new Vue({
                 .catch((err) => {
                     //    text.append(data.message);
                     console.log(err);
-                    alert("don't cheat bitch: " + err);
+                    //alert("don't cheat bitch: " + err);
                     // window.location.href = "games.html";
                 })
         },

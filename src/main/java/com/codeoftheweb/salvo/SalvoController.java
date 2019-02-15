@@ -9,13 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.Authenticator;
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("/api")
@@ -117,12 +114,10 @@ public class SalvoController {
 
     private Map<String, Object> salvoDTO(Salvo salvo) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
+
         dto.put("turn", salvo.getTurn());
         dto.put("gp", salvo.getGamePlayerSalvo().getPlayer().getId());
         dto.put("position", salvo.getSalvoPosition());
-        if(getHits(salvo) !=null){
-            dto.put("hits", getHits(salvo));
-        }
         if(getHits(salvo) !=null){
            dto.put("hittedShips", getHits(salvo)
            .stream()
@@ -130,19 +125,14 @@ public class SalvoController {
            .collect(toList()));
         }
 
-       //    dto.put("sinks", );
+
+
+
+
 
         return dto;
     }
-//    private Map<String,Object> shipSinked(String hit, Salvo salvo) {
-//        Map<String, Object> dto = new LinkedHashMap<>();
-//        for (Ship ship: getOpponent(salvo.getGamePlayerSalvo()).getShips()) {
-//
-//
-//        }
-//
-//        return dto;
-//    }
+
 
     private Map<String,Object> shipHit(String hit, Salvo salvo){
         Map<String, Object> dto = new LinkedHashMap<>();
@@ -161,7 +151,6 @@ public class SalvoController {
         List<String> salvoPositions = salvo.getSalvoPosition();
         List<String> shipPositions = getShipsosition(enemy);
 
-
         return (salvoPositions.stream()
                 .filter(salvos->shipPositions.contains(salvos))
                 .collect(Collectors.toList()));
@@ -169,6 +158,36 @@ public class SalvoController {
     else return null;
 
     }
+
+
+    private Map<String, Boolean> sinkedShips(GamePlayer gamePlayer) {
+        Map<String, Boolean> dto = new LinkedHashMap<>();
+
+        List<String> allSalvoes = gamePlayer.getSalvos()
+                .stream()
+                .flatMap(salvo -> salvo.getSalvoPosition().stream())
+                .collect(toList());
+
+        for (Ship ship: getOpponent(gamePlayer).getShips()) {
+        dto.put(ship.getShipType(), shipIsSunk(allSalvoes, ship)) ;
+
+        }
+
+        return dto;
+
+    }
+
+    private boolean shipIsSunk(List<String> playerSalvoes, Ship ship) {
+
+        boolean shipIsSunk = ship.getShipPosition().stream()
+                .allMatch(locations -> playerSalvoes.contains(locations));
+
+        return shipIsSunk;
+
+    }
+
+
+
 
 
     private List<String> getShipsosition(GamePlayer gamePlayer){
@@ -215,9 +234,6 @@ public class SalvoController {
                 .map(gp -> gp.getId())
                 .collect(toList());
 
-
-
-
         if (gps.contains(gpId)) {
             GamePlayer gamePlayer = gamePlayerRepository.getOne(gpId);
 
@@ -252,12 +268,11 @@ public class SalvoController {
             } else {
                 dto.put("salvoesEnemy", null);
             }
-//            if (gamePlayerRepository.getOne(gpId).getSalvos()!=null){
-//                dto.put("turn", gamePlayerRepository.getOne(gpId).)
-//            }
-//            else{
-//                dto.put("hits/sinks", null);
-//            }
+
+           dto.put("sinkedEnemy", sinkedShips(gamePlayer));
+            dto.put("ownSinked", sinkedShips(getOpponent(gamePlayer)));
+
+
 
             return dto;
         } else {
