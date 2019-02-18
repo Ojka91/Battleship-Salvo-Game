@@ -265,12 +265,15 @@ public class SalvoController {
                         .stream()
                         .map(en -> salvoDTO(en))
                         .collect(toList()));
+                dto.put("sinkedEnemy", sinkedShips(gamePlayer));
+                dto.put("ownSinked", sinkedShips(getOpponent(gamePlayer)));
             } else {
                 dto.put("salvoesEnemy", null);
+                dto.put("sinkedEnemy", null);
+                dto.put("ownSinked", null);
             }
 
-           dto.put("sinkedEnemy", sinkedShips(gamePlayer));
-            dto.put("ownSinked", sinkedShips(getOpponent(gamePlayer)));
+
 
 
 

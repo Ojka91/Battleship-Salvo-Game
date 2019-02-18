@@ -8,7 +8,7 @@ var myApp = new Vue({
         ownerGame: "",
         opponent: "",
         turn: 8,
-        enemyInfo: "",
+       // enemyInfo: "",
 
         salvoPosition: [],
         salvoInfo: [],
@@ -67,7 +67,7 @@ var myApp = new Vue({
                     console.log(this.data);
                     myApp.salvoInfo=[];
                     myApp.init();
-                    this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
+                  //  this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
 
                 })
                 .catch((err) => {
@@ -508,9 +508,7 @@ var myApp = new Vue({
 
     },
 
-    computed:function(){
-        this.lifeInfoGame();
-    },
+
 
 
     created: function () {
