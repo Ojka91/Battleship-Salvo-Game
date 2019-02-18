@@ -7,7 +7,8 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
-        turn: 6,
+        turn: 8,
+        enemyInfo: "",
 
         salvoPosition: [],
         salvoInfo: [],
@@ -66,6 +67,7 @@ var myApp = new Vue({
                     console.log(this.data);
                     myApp.salvoInfo=[];
                     myApp.init();
+                    this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
 
                 })
                 .catch((err) => {
@@ -82,6 +84,15 @@ var myApp = new Vue({
             this.printPlayerInfo();
             this.printEnemySalvos();
             this.printOwnerSalvos();
+        },
+        lifeInfoGame(){
+            // for (var key in myApp.data.sinkedEnemy){
+            //     var name = JSON.stringify()
+           
+            // }
+            myApp.data.sinkedEnemy.array.forEach(element => {
+                
+            });
         },
 
 
@@ -495,6 +506,10 @@ var myApp = new Vue({
 
         //------------------------end of ship placement---------------------//
 
+    },
+
+    computed:function(){
+        this.lifeInfoGame();
     },
 
 

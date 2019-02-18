@@ -143,3 +143,13 @@
    
  }
 
+ .containerCenter{
+   display: flex;
+   flex-direction: column;
+
+ }
+
+td:nth-child(.middleinfo){
+width: 30px;
+ }
+

@@ -18,8 +18,8 @@
     <span id="sound">
         <!-- <iframe id ="iframe" src="/web/styles/assets/battle.mp3" allow="autoplay" style="display:none" id="iframeAudio">
         </iframe>  -->
-        <audio id="audio" autoplay src="/web/styles/assets/battle.mp3" type="audio/mpeg">
-        </audio>
+        <!-- <audio id="audio" autoplay src="/web/styles/assets/battle.mp3" type="audio/mpeg">
+        </audio> -->
     </span>
     <div id="app">
         <button class="btn btn-primary sticky-top" v-on:click="sound()">sound</button>
@@ -80,13 +80,37 @@
                 </div>
             </div>
             
+
+            <div class="containerCenter">
             <div v-show="firesReady == true" class="fireDiv">
                     <p class="fireState">Place shots</p>
                 <p class ="shotsLeft">{{firesLeft}} Shots left</p>
                 <button class="btn btn-danger" v-on:click="getSalvoData()" v-show="firesLeft==0" >FIRE!</button>
+            </div>
 
+            <div class="infoGame">
+                <table class="middleinfo table-bordered">
+                    <caption>
+                        <h5>Enemy ships</h5>
+                    </caption>
+                    <tr>
+                        <td>Ship Name</td>
+                        <td>Sinked</td>
+                    </tr>
+                    <tr v-for="ship in enemyInfo">
+                        <td>{{ship[0]}}</td>
+                        <td>{{ship[1]}}</td>
+
+                    </tr>
+                  
+                
+                  
+         
+       
+                </table>
 
             </div>
+        </div>
 
             <table class="tbOwner enemyTb" id="tbOwner" v-show="shipsDone">
                 <caption>
