@@ -28,6 +28,8 @@ public class SalvoController {
     private GamePlayerRepository gamePlayerRepository;
 
     @Autowired
+    private ScoreRepository scoreRepository;
+    @Autowired
     private ShipRepository shipRepository;
 
     @Autowired
@@ -225,6 +227,60 @@ public class SalvoController {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
+    private Map<String, Object> gameOver (GamePlayer gamePlayer){
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        List<String> ownerSalvoes = gamePlayer.getSalvos()
+                .stream()
+                .flatMap(salvo -> salvo.getSalvoPosition().stream())
+                .collect(toList());
+        List<String> ownerShips = gamePlayer.getShips()
+                .stream()
+                .flatMap(ship->ship.getShipPosition().stream())
+                .collect(toList());
+        if(getOpponent(gamePlayer) !=null) {
+            List<String> opponentSalvoes = getOpponent(gamePlayer).getSalvos()
+                    .stream()
+                    .flatMap(salvo -> salvo.getSalvoPosition().stream())
+                    .collect(toList());
+            List<String> opponentShips = getOpponent(gamePlayer).getShips()
+                    .stream()
+                    .flatMap(ship -> ship.getShipPosition().stream())
+                    .collect(toList());
+
+
+            if (ownerSalvoes.containsAll(opponentShips) && !opponentSalvoes.containsAll(ownerShips)) {
+                dto.put("WINNER", gamePlayer.getPlayer().getPlayerEmail());
+                dto.put("LOOSER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1.0));
+                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.0));
+            } else {
+                dto.put("STATUS", "PROGRESS");
+            }
+            if (opponentSalvoes.containsAll(ownerShips) && !ownerSalvoes.containsAll(opponentShips)) {
+                dto.put("WINNER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+                dto.put("LOOSER", gamePlayer.getPlayer().getPlayerEmail());
+                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.0));
+                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 1.0));
+            } else {
+                dto.put("STATUS", "PROGRESS");
+            }
+            if (opponentSalvoes.containsAll(ownerShips) && ownerSalvoes.containsAll(opponentShips)) {
+                dto.put("DRAW", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+                dto.put("DRAW", gamePlayer.getPlayer().getPlayerEmail());
+                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.5));
+                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.5));
+            } else {
+                dto.put("STATUS", "PROGRESS");
+            }
+
+
+        }
+
+
+
+        return dto;
+    }
+
     // END -------COMMON METHODS -------//
 
     @RequestMapping("/game_view/{gpId}")
@@ -272,6 +328,39 @@ public class SalvoController {
                 dto.put("sinkedEnemy", null);
                 dto.put("ownSinked", null);
             }
+
+            if(gamePlayer.getShips().size()==0){
+                dto.put("STATUS", "placing ships");
+            }
+            if(getOpponent(gamePlayer) == null && gamePlayer.getShips().size()!=0){
+                dto.put("STATUS", "waiting for opponent");
+            }
+
+            if(getOpponent(gamePlayer) != null && getOpponent(gamePlayer).getShips().size()==0){
+                dto.put("STATUS", "opponent placing ships");
+            }
+
+
+            if(getOpponent(gamePlayer)!=null) {
+                if (getOpponent(gamePlayer).getShips().size() != 0 && gamePlayer.getShips().size() != 0) {
+                    dto.put("STATUS", "placing salvoes");
+                }
+
+
+                if (gamePlayer.getSalvos().size() > getOpponent(gamePlayer).getSalvos().size()) {
+                    dto.put("STATUS", "opponent is placing salvoes");
+
+                }
+
+
+            }
+
+            if(gameOver(gamePlayer).containsKey("WINNER")){
+                dto.put("STATUSs", gameOver(gamePlayer));
+            }
+
+
+
 
 
 
@@ -376,7 +465,7 @@ public class SalvoController {
 
 
     @RequestMapping(path = "/games/players/{gamePlayerId}/salvos", method = RequestMethod.POST)
-    public ResponseEntity<Object> createSalvos(@PathVariable Long gamePlayerId, Authentication authentication, Salvo salvo1, GamePlayer gamePlayer, @RequestBody List<Salvo> salvos) {
+    public ResponseEntity<Object> createSalvos(@PathVariable Long gamePlayerId, Authentication authentication,  @RequestBody List<Salvo> salvos) {
         if (isAuth(authentication) != null) {
             if (gamePlayerRepository.getOne(gamePlayerId) != null) {
                 if (isAuth(authentication).getGamePlayers().contains(gamePlayerRepository.getOne(gamePlayerId))) {
@@ -385,13 +474,15 @@ public class SalvoController {
                             .map(tn -> tn.getTurn())
                             .collect(toList());
 
-                    if (!turns.contains(3)) {
+                    if (gamePlayerRepository.getOne(gamePlayerId).getSalvos().size()== turns.size()) {
+
                         GamePlayer currentGp = gamePlayerRepository.getOne(gamePlayerId);
                         for (Salvo salvo : salvos) {
                             salvo.setGamePlayerSalvo(currentGp);
+                            salvo.setTurn(currentGp.getSalvos().size()+1);
                             salvoRepository.save(salvo);
                         }
-                        return new ResponseEntity<>(makeMap("succes", "ships placed"), HttpStatus.CREATED);
+                        return new ResponseEntity<>(makeMap("succes", "salvoes placed"), HttpStatus.CREATED);
 
                     } else {
                         return new ResponseEntity<>(makeMap("error", "already fired salvos"), HttpStatus.FORBIDDEN);

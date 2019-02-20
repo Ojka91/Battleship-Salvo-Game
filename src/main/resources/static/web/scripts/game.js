@@ -7,12 +7,13 @@ var myApp = new Vue({
         gpURL: "",
         ownerGame: "",
         opponent: "",
-        turn: 8,
-       // enemyInfo: "",
+        turn: 2,
+        enemyInfo: "",
 
         salvoPosition: [],
         salvoInfo: [],
         firesLeft: 5,
+        turnArray: [],
         firing: false,
         firesReady: false,
         //---ship placement variables ---//
@@ -65,9 +66,9 @@ var myApp = new Vue({
 
                     this.data = json;
                     console.log(this.data);
-                    myApp.salvoInfo=[];
+                    myApp.salvoInfo = [];
                     myApp.init();
-                  //  this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
+                    this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
 
                 })
                 .catch((err) => {
@@ -85,13 +86,13 @@ var myApp = new Vue({
             this.printEnemySalvos();
             this.printOwnerSalvos();
         },
-        lifeInfoGame(){
+        lifeInfoGame() {
             // for (var key in myApp.data.sinkedEnemy){
             //     var name = JSON.stringify()
-           
+
             // }
             myApp.data.sinkedEnemy.array.forEach(element => {
-                
+
             });
         },
 
@@ -153,11 +154,11 @@ var myApp = new Vue({
 
             }
         },
-        fireOver(letters, numbers){
-            document.getElementById(letters+numbers+"E").classList.add("fireOver");
+        fireOver(letters, numbers) {
+            document.getElementById(letters + numbers + "E").classList.add("fireOver");
         },
-        fireOut(letters, numbers){
-            document.getElementById(letters+numbers+"E").classList.remove("fireOver");
+        fireOut(letters, numbers) {
+            document.getElementById(letters + numbers + "E").classList.remove("fireOver");
         },
 
         printShips: function () {
@@ -177,44 +178,49 @@ var myApp = new Vue({
         },
 
         placeFires(letters, numbers) {
-            if (myApp.firesLeft > 0) {
-                if (!myApp.salvoPosition.includes(letters + numbers)) {
-                    if(letters!=""&&numbers!=""){
-                        var gif = document.getElementsByClassName("fireGif");
-                        if(!document.getElementById(letters+numbers+"E").classList.contains("fired")){
-                            console.log(document.getElementById(letters+numbers+"E").classList.contains("fired"))
-                            myApp.salvoPosition.push(letters + numbers);
-        
-                            var img = document.createElement("img");
-                            img.className = "fireGif";
-                            img.src = "/web/styles/assets/fireGif.gif";
-                            document.getElementById(letters + numbers + "E").append(img);
-                            document.getElementById(letters + numbers + "E").classList.add("fired");
-                            myApp.firesLeft -= 1;
+      
 
+            
+
+         
+
+                if (myApp.firesLeft > 0) {
+                    if (!myApp.salvoPosition.includes(letters + numbers)) {
+                        if (letters != "" && numbers != "") {
+                            var gif = document.getElementsByClassName("fireGif");
+                            if (!document.getElementById(letters + numbers + "E").classList.contains("fired")) {
+                                console.log(document.getElementById(letters + numbers + "E").classList.contains("fired"))
+                                myApp.salvoPosition.push(letters + numbers);
+    
+                                var img = document.createElement("img");
+                                img.className = "fireGif";
+                                img.src = "/web/styles/assets/fireGif.gif";
+                                document.getElementById(letters + numbers + "E").append(img);
+                                document.getElementById(letters + numbers + "E").classList.add("fired");
+                                myApp.firesLeft -= 1;
+    
+                            } else {
+                                alert("you already placed there");
+                            }
+    
+                        } else {
+                            alert("can't place there there");
                         }
-                        else{
-                            alert("you already placed there");
-                        }
-
+    
+    
+                    } else {
+                        alert("you already placed there");
                     }
-                    else{
-                        alert("can't place there there");
-                    }
-
-
                 } else {
-                    alert("you already placed there");
-                } } else {
                     alert("no more shots, FIRE them!");
-
+    
                 }
-           
+         
+
         },
 
         getSalvoData() {
             myApp.salvoInfo = [{
-                turn: myApp.turn,
                 salvoPosition: myApp.salvoPosition
             }];
 
@@ -227,17 +233,17 @@ var myApp = new Vue({
                 body: JSON.stringify(myApp.salvoInfo)
             }).then(function (response) {
                 return response.json();
-               
+
             }).then(function (json) {
                 console.log('parsed json', json)
                 alert(json.error);
                 myApp.getData();
-                
+              
 
             }).catch(function (ex) {
                 console.log('parsing failed', ex)
                 alert("error posting ships" + ex);
-              
+
 
             });
 
@@ -245,26 +251,26 @@ var myApp = new Vue({
         },
 
         printOwnerSalvos: function () {
-            if(document.getElementsByClassName("fireGif"!=null)){
-                var imgDelete=document.getElementsByClassName("fireGif");
-                while(imgDelete.length >0){
+            if (document.getElementsByClassName("fireGif" != null)) {
+                var imgDelete = document.getElementsByClassName("fireGif");
+                while (imgDelete.length > 0) {
                     imgDelete[0].parentNode.removeChild(imgDelete[0]);
                     document.getElementsByClassName("fireGif").innerHTML = "";
                 }
                 console.log("in");
 
             }
-       
+
             if (this.data.salvoesOwner != null) {
 
                 console.log("inside print salvos");
                 for (var x = 0; x < this.data.salvoesOwner.length; x++) {
                     for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
-                       
+
                         var img = document.createElement("img");
                         img.className = "fireGif";
                         img.src = "/web/styles/assets/fireGif.gif";
-                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
+                        document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").classList.add("fired");
                     }
@@ -316,7 +322,7 @@ var myApp = new Vue({
 
                 myApp.shipName = id;
                 shipName = document.getElementById(id);
-                
+
 
                 //first all buttons must have primary class
                 carrier = document.getElementById("carrier").classList.remove("btn-warning");
@@ -502,7 +508,7 @@ var myApp = new Vue({
             }
         },
 
-     
+
 
         //------------------------end of ship placement---------------------//
 
