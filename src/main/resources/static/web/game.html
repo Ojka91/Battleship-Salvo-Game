@@ -80,15 +80,37 @@
                 </div>
             </div>
             
-
-            <div class="containerCenter">
+            <div v-if="DRAW!=null" class="winner">
+                    <h1>
+                       <p>WINNER IS </p> 
+                       <p>DRAW </p> 
+                   
+                    </h1>
+                </div>
+            <div v-if="WINNER!=null" class="winner">
+                <h1>
+                   <p>WINNER IS </p> 
+                   <p>{{WINNER}}</p>
+                </h1>
+            </div>
+            <div class="containerCenter" v-if="WINNER == null &&DRAW == null">
             <div v-show="firesReady == true" class="fireDiv">
-                    <p class="fireState">Place shots</p>
-                <p class ="shotsLeft">{{firesLeft}} Shots left</p>
-                <button class="btn btn-danger" v-on:click="getSalvoData()" v-show="firesLeft==0" >FIRE!</button>
+
+                    <p class="fireState" v-if="data.STATUS=='waiting for opponent'">Waiting for opponent</p>
+                    <p class="fireState" v-if="data.STATUS=='opponent placing ships'">Opponent is placing ships... wait</p>
+                    <p class="fireState" v-if="data.STATUS=='placing salvoes'">Place shots</p>
+                    <p class="fireState" v-if="data.STATUS=='opponent is placing salvoes'">Enemy is placing salvoes... WAIT</p>
+              <div class="flex-horizontal">
+                    <span v-for="fires in firesLeft">
+                            <img class ="shotsLeft" v-if="data.STATUS=='placing salvoes'" src="styles/assets/bomb.png"></img>
+                    </span> 
+              </div>     
+           
+                <!-- <p class ="shotsLeft" v-if="data.STATUS=='placing salvoes'">{{firesLeft}} Shots left</p> -->
+                <button class="btn btn-danger" v-on:click="getSalvoData()" v-show="firesLeft==0"  v-if="data.STATUS=='placing salvoes'">FIRE!</button>
             </div>
 
-            <div class="infoGame">
+            <div class="infoGame" v-if="data.STATUS !='opponent placing ships'  && data.shipsOwner !=null && data.STATUS !='waiting for opponent'">
                 <table class="middleinfo table-bordered">
                     <caption>
                         <h5>Enemy ships</h5>

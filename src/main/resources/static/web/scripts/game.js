@@ -9,6 +9,8 @@ var myApp = new Vue({
         opponent: "",
         turn: 2,
         enemyInfo: "",
+        WINNER:null,
+        DRAW: null,
 
         salvoPosition: [],
         salvoInfo: [],
@@ -60,7 +62,8 @@ var myApp = new Vue({
 
         getData: function () {
 
-            fetch('/api/game_view/' + this.gpURL)
+            
+                fetch('/api/game_view/' + this.gpURL)
                 .then((res) => res.json())
                 .then((json) => {
 
@@ -69,6 +72,14 @@ var myApp = new Vue({
                     myApp.salvoInfo = [];
                     myApp.init();
                     this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
+                    if(this.data.STATUS.WINNER != null){
+                        console.log(this.data.STATUS.WINNER +" eah");
+                        myApp.WINNER = this.data.STATUS.WINNER;
+                    }
+                    if(myApp.DRAW==null){
+                        console.log(this.data.STATUS.DRAW +" eah");
+                        myApp.DRAW = this.data.STATUS.DRAW;
+                    }
 
                 })
                 .catch((err) => {
@@ -77,6 +88,8 @@ var myApp = new Vue({
                     //alert("don't cheat bitch: " + err);
                     // window.location.href = "games.html";
                 })
+     
+         
         },
 
 
@@ -179,11 +192,7 @@ var myApp = new Vue({
 
         placeFires(letters, numbers) {
       
-
-            
-
-         
-
+            if(myApp.data.STATUS == "placing salvoes" ){
                 if (myApp.firesLeft > 0) {
                     if (!myApp.salvoPosition.includes(letters + numbers)) {
                         if (letters != "" && numbers != "") {
@@ -215,6 +224,12 @@ var myApp = new Vue({
                     alert("no more shots, FIRE them!");
     
                 }
+            }
+            
+
+         
+
+         
          
 
         },

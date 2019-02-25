@@ -1,6 +1,7 @@
 package com.codeoftheweb.salvo;
 
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -229,6 +230,7 @@ public class SalvoController {
 
     private Map<String, Object> gameOver (GamePlayer gamePlayer){
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        Integer counter = 0;
         List<String> ownerSalvoes = gamePlayer.getSalvos()
                 .stream()
                 .flatMap(salvo -> salvo.getSalvoPosition().stream())
@@ -247,31 +249,30 @@ public class SalvoController {
                     .flatMap(ship -> ship.getShipPosition().stream())
                     .collect(toList());
 
+    if(counter ==0){
+        if (ownerSalvoes.containsAll(opponentShips) && !opponentSalvoes.containsAll(ownerShips) && gamePlayer.getShips().size()!=0 && getOpponent(gamePlayer).getShips().size()!=0) {
+            dto.put("WINNER", gamePlayer.getPlayer().getPlayerEmail());
+            dto.put("LOOSER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+            scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1.0));
+            scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.0));
+        }
+        if (opponentSalvoes.containsAll(ownerShips) && !ownerSalvoes.containsAll(opponentShips) && gamePlayer.getShips().size()!=0 && getOpponent(gamePlayer).getShips().size()!=0) {
+            dto.put("WINNER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+            dto.put("LOOSER", gamePlayer.getPlayer().getPlayerEmail());
+            scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.0));
+            scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 1.0));
+        }
+        if (opponentSalvoes.containsAll(ownerShips) && ownerSalvoes.containsAll(opponentShips) && gamePlayer.getShips().size()!=0 && getOpponent(gamePlayer).getShips().size()!=0) {
+            dto.put("DRAW", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
+            dto.put("DRAW", gamePlayer.getPlayer().getPlayerEmail());
+            scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.5));
+            scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.5));
 
-            if (ownerSalvoes.containsAll(opponentShips) && !opponentSalvoes.containsAll(ownerShips)) {
-                dto.put("WINNER", gamePlayer.getPlayer().getPlayerEmail());
-                dto.put("LOOSER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
-                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1.0));
-                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.0));
-            } else {
-                dto.put("STATUS", "PROGRESS");
-            }
-            if (opponentSalvoes.containsAll(ownerShips) && !ownerSalvoes.containsAll(opponentShips)) {
-                dto.put("WINNER", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
-                dto.put("LOOSER", gamePlayer.getPlayer().getPlayerEmail());
-                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.0));
-                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 1.0));
-            } else {
-                dto.put("STATUS", "PROGRESS");
-            }
-            if (opponentSalvoes.containsAll(ownerShips) && ownerSalvoes.containsAll(opponentShips)) {
-                dto.put("DRAW", getOpponent(gamePlayer).getPlayer().getPlayerEmail());
-                dto.put("DRAW", gamePlayer.getPlayer().getPlayerEmail());
-                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.5));
-                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.5));
-            } else {
-                dto.put("STATUS", "PROGRESS");
-            }
+        }
+        counter++;
+
+    }
+
 
 
         }
@@ -336,27 +337,49 @@ public class SalvoController {
                 dto.put("STATUS", "waiting for opponent");
             }
 
+
+
+
+            if(getOpponent(gamePlayer)!=null) {
+//                if (getOpponent(gamePlayer).getShips().size() != 0 && gamePlayer.getShips().size() != 0) {
+//                    dto.put("STATUS", "placing salvoes");
+//                }
+
+                if(getOpponent(gamePlayer).getSalvos().size() == gamePlayer.getSalvos().size() && gamePlayer.getShips().size() != 0 && getOpponent(gamePlayer).getShips().size() != 0 ||getOpponent(gamePlayer).getSalvos().size()-1 == gamePlayer.getSalvos().size()  ){
+                    dto.put("STATUS", "placing salvoes");
+                }
+
+                if (gamePlayer.getSalvos().size() > getOpponent(gamePlayer).getSalvos().size()) {
+                    dto.put("STATUS", "opponent is placing salvoes");
+                            }
+            }
             if(getOpponent(gamePlayer) != null && getOpponent(gamePlayer).getShips().size()==0){
                 dto.put("STATUS", "opponent placing ships");
             }
 
+                if(gameOver(gamePlayer).containsKey("WINNER") && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
+                    dto.put("STATUS", gameOver(gamePlayer));
+                    Object winner = gameOver(gamePlayer).get("WINNER");
 
-            if(getOpponent(gamePlayer)!=null) {
-                if (getOpponent(gamePlayer).getShips().size() != 0 && gamePlayer.getShips().size() != 0) {
-                    dto.put("STATUS", "placing salvoes");
-                }
-
-
-                if (gamePlayer.getSalvos().size() > getOpponent(gamePlayer).getSalvos().size()) {
-                    dto.put("STATUS", "opponent is placing salvoes");
-
-                }
+                    if(winner == gamePlayer.getPlayer().getPlayerEmail()){
+//                   scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1.0));
+//                   scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.0));
+                    }
+                    if(winner == getOpponent(gamePlayer).getPlayer().getPlayerEmail()){
+                        System.out.println("2");
+//                   scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.0));
+//                   scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 1.0));
+                    }
 
 
             }
 
-            if(gameOver(gamePlayer).containsKey("WINNER")){
-                dto.put("STATUSs", gameOver(gamePlayer));
+
+            if(gameOver(gamePlayer).containsKey("DRAW") && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
+                dto.put("STATUS", gameOver(gamePlayer));
+
+//                scoreRepository.save(new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0.5));
+//                scoreRepository.save(new Score(getOpponent(gamePlayer).getGame(), getOpponent(gamePlayer).getPlayer(), 0.5));
             }
 
 
@@ -475,14 +498,19 @@ public class SalvoController {
                             .collect(toList());
 
                     if (gamePlayerRepository.getOne(gamePlayerId).getSalvos().size()== turns.size()) {
+                        if(gamePlayerRepository.getOne(gamePlayerId).getSalvos().size() == getOpponent(gamePlayerRepository.getOne(gamePlayerId)).getSalvos().size()
+                        ||gamePlayerRepository.getOne(gamePlayerId).getSalvos().size()+1 == getOpponent(gamePlayerRepository.getOne(gamePlayerId)).getSalvos().size()){
+                            GamePlayer currentGp = gamePlayerRepository.getOne(gamePlayerId);
+                            for (Salvo salvo : salvos) {
+                                salvo.setGamePlayerSalvo(currentGp);
+                                salvo.setTurn(currentGp.getSalvos().size()+1);
+                                salvoRepository.save(salvo);
+                            }
+                            return new ResponseEntity<>(makeMap("succes", "salvoes placed"), HttpStatus.CREATED);
 
-                        GamePlayer currentGp = gamePlayerRepository.getOne(gamePlayerId);
-                        for (Salvo salvo : salvos) {
-                            salvo.setGamePlayerSalvo(currentGp);
-                            salvo.setTurn(currentGp.getSalvos().size()+1);
-                            salvoRepository.save(salvo);
+                        }else{
+                            return new ResponseEntity<>(makeMap("error", "wait for opponent to fire salvos"), HttpStatus.FORBIDDEN);
                         }
-                        return new ResponseEntity<>(makeMap("succes", "salvoes placed"), HttpStatus.CREATED);
 
                     } else {
                         return new ResponseEntity<>(makeMap("error", "already fired salvos"), HttpStatus.FORBIDDEN);
