@@ -267,15 +267,14 @@ var myApp = new Vue({
         },
 
         printOwnerSalvos: function () {
-            if (document.getElementsByClassName("fireGif" != null)) {
-                var imgDelete = document.getElementsByClassName("fireGif");
-                while (imgDelete.length > 0) {
-                    imgDelete[0].parentNode.removeChild(imgDelete[0]);
-                    document.getElementsByClassName("fireGif").innerHTML = "";
-                }
-                console.log("in");
-
-            }
+            
+            // if (document.getElementsByClassName("fireGif" != null)) {
+            //     var imgDelete = document.getElementsByClassName("fireGif");
+            //     while (imgDelete.length > 0) {
+            //         imgDelete[0].parentNode.removeChild(imgDelete[0]);
+            //         document.getElementsByClassName("fireGif").innerHTML = "";
+            //     }
+            // }
 
             if (this.data.salvoesOwner != null) {
 
@@ -292,8 +291,21 @@ var myApp = new Vue({
                         imgw.src = "/web/styles/assets/splash.gif";
                     
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
-                        document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").classList.add("fired");
+                      
+                        document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(imgw);
+                    }
+                }
+
+
+                //change water for fire on hits
+                for (var q = 0; q < this.data.salvoesOwner.length; q++) {
+                    for (var j = 0; j < this.data.salvoesOwner[q].hittedShips.length; j++) {
+
+                        for(var w in this.data.salvoesOwner[q].hittedShips[j]){
+                        var id = w;
+                          }
+                        document.querySelector("#"+id+"E img").setAttribute("src", "/web/styles/assets/fireGif.gif");
                     }
                 }
 
