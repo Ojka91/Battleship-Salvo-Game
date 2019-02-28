@@ -157,7 +157,8 @@ var myApp = new Vue({
                         img.src = "/web/styles/assets/fireGif.gif";
                         img2.src = "/web/styles/assets/splash.gif";
                         document.getElementById(this.data.salvoesEnemy[x].position[y]).innerHTML = this.data.salvoesEnemy[x].turn;
-                        if (document.getElementById(this.data.salvoesEnemy[x].position[y]).classList.contains("submarine" || "carrier" || "patrolBoat" || "destroyer")) {
+                        if (document.getElementById(this.data.salvoesEnemy[x].position[y]).classList.contains("destructor")) {
+               
                             document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
                         } else {
                             document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img2);
@@ -203,7 +204,7 @@ var myApp = new Vue({
     
                                 var img = document.createElement("img");
                                 img.className = "fireGif";
-                                img.src = "/web/styles/assets/fireGif.gif";
+                                img.src = "/web/styles/assets/bomb.png";
                                 document.getElementById(letters + numbers + "E").append(img);
                                 document.getElementById(letters + numbers + "E").classList.add("fired");
                                 myApp.firesLeft -= 1;
@@ -285,6 +286,11 @@ var myApp = new Vue({
                         var img = document.createElement("img");
                         img.className = "fireGif";
                         img.src = "/web/styles/assets/fireGif.gif";
+
+                        var imgw = document.createElement("img");
+                        imgw.className = "waterSplash";
+                        imgw.src = "/web/styles/assets/splash.gif";
+                    
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").innerHTML = this.data.salvoesOwner[x].turn;
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").append(img);
                         document.getElementById(this.data.salvoesOwner[x].position[y] + "E").classList.add("fired");
