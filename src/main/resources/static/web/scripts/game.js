@@ -76,6 +76,9 @@ var myApp = new Vue({
             }
         },
 
+        reload(){
+            location.reload();
+        },
         checkStatus(){
             fetch('/api/game_view/' + this.gpURL)
                 .then((res) => res.json())

@@ -42,10 +42,6 @@
                             opponent...</span></p>
 
                 </div>
-                <!-- <div class="col-2 flex">
-                    {{turn}}
-                </div> -->
-
             </div>
         </div>
 
@@ -73,6 +69,7 @@
             </table>
             <div v-show="shipsDone == false">
                 <button class="btn btn-success" v-on:click="rotateShip()" id="rotateShip">Rotate Ship</button>
+                <button class="btn btn-danger" v-on:click="reload()" id="rotateShip">Relocate Ships</button>
                 <div id="ships" class="ships">
                     <p class="btn btn-primary" v-on:click="placeShips('carrier')" id="carrier">Carrier</p>
                     <p class="btn btn-primary" v-on:click="placeShips('battleShip')" id="battleShip">Battleship</p>
