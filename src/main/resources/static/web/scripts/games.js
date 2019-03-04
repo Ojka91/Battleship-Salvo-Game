@@ -229,6 +229,17 @@ var myApp = new Vue({
             this.ourData.password = document.getElementById("password").value;
             this.signUp();
         },
+        audioController(){
+            var ifr = document.getElementById("iframeAudio");
+            var aud = document.getElementById("audio");
+            if( !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime) != true){
+                ifr.style.display="none";
+            }
+            else{
+                aud.style.display="none";
+            }
+
+        },
 
     },
     computed: {
@@ -249,6 +260,7 @@ var myApp = new Vue({
     created: function () {
         this.getDataClass();
         this.getDataGames();
+        this.audioController();
 
     },
 

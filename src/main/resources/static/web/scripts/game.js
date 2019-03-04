@@ -11,6 +11,7 @@ var myApp = new Vue({
         enemyInfo: "",
         WINNER:null,
         DRAW: null,
+        data2:"",
 
         salvoPosition: [],
         salvoInfo: [],
@@ -56,8 +57,37 @@ var myApp = new Vue({
             var url = new URL(window.location.href);
             this.gpURL = url.searchParams.get("gp");
             this.getData();
+            this.checkStatus();
             console.log(this.gpURL);
 
+        },
+        timing(){
+            if(myApp.data2.STATUS == "opponent placing ships" ||myApp.data2.STATUS ==  "opponent is placing salvoes" || 
+            myApp.data2.STATUS ==  "waiting for opponent"){
+                setTimeout(myApp.checkStatus, 5000)
+                console.log("HY");
+            }
+            
+            else if (myApp.data2.STATUS == "placing salvoes" && myApp.data.STATUS=="opponent is placing salvoes" ||myApp.data2.STATUS == "placing ships"
+            && myApp.data.STATUS=="opponent placing ships" || myApp.data2.STATUS == "placing ships" && myApp.data.STATUS=="waiting for opponent" || 
+            myApp.data2.STATUS == "placing salvoes" && myApp.data.STATUS=="waiting for opponent" || typeof myApp.data2.STATUS == "object" && myApp.data.STATUS=="opponent is placing salvoes"
+            || myApp.data2.STATUS =="placing salvoes"  && myApp.data.STATUS=="opponent placing ships"){
+                location.reload();
+            }
+        },
+
+        checkStatus(){
+            fetch('/api/game_view/' + this.gpURL)
+                .then((res) => res.json())
+                .then((json) => {
+                    this.data2 = json;
+                    this.timing();
+                    console.log("HEY2");
+                })
+                .catch((err) => {
+                 console.log(err);
+               
+                })
         },
 
         getData: function () {
@@ -72,6 +102,7 @@ var myApp = new Vue({
                     myApp.salvoInfo = [];
                     myApp.init();
                     this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
+                    console.log("where is eemy")
                     if(this.data.STATUS.WINNER != null){
                         console.log(this.data.STATUS.WINNER +" eah");
                         myApp.WINNER = this.data.STATUS.WINNER;
@@ -92,13 +123,18 @@ var myApp = new Vue({
          
         },
 
+    
+        
 
         init: function () {
             this.printShips();
             this.printPlayerInfo();
             this.printEnemySalvos();
             this.printOwnerSalvos();
-        },
+            this.timing(); 
+
+         //  setInterval(myApp.getData,1000);
+         },
         lifeInfoGame() {
             // for (var key in myApp.data.sinkedEnemy){
             //     var name = JSON.stringify()
@@ -157,12 +193,20 @@ var myApp = new Vue({
                         img.src = "/web/styles/assets/fireGif.gif";
                         img2.src = "/web/styles/assets/splash.gif";
                         document.getElementById(this.data.salvoesEnemy[x].position[y]).innerHTML = this.data.salvoesEnemy[x].turn;
-                        if (document.getElementById(this.data.salvoesEnemy[x].position[y]).classList.contains("destructor")) {
+                       
                
-                            document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img);
-                        } else {
                             document.getElementById(this.data.salvoesEnemy[x].position[y]).append(img2);
-                        }
+                     
+                    }
+                }
+
+                for (var q = 0; q < this.data.salvoesEnemy.length; q++) {
+                    for (var j = 0; j < this.data.salvoesEnemy[q].hittedShips.length; j++) {
+
+                        for(var w in this.data.salvoesEnemy[q].hittedShips[j]){
+                        var id = w;
+                          }
+                        document.querySelector("#"+id+" img").setAttribute("src", "/web/styles/assets/fireGif.gif");
                     }
                 }
 
@@ -253,7 +297,7 @@ var myApp = new Vue({
             }).then(function (json) {
                 console.log('parsed json', json)
                 alert(json.error);
-                myApp.getData();
+                location.reload();
               
 
             }).catch(function (ex) {
@@ -267,7 +311,8 @@ var myApp = new Vue({
         },
 
         printOwnerSalvos: function () {
-            
+            //i think that is useless
+
             // if (document.getElementsByClassName("fireGif" != null)) {
             //     var imgDelete = document.getElementsByClassName("fireGif");
             //     while (imgDelete.length > 0) {
@@ -552,7 +597,8 @@ var myApp = new Vue({
 
     created: function () {
         this.getURL();
-
     },
+
+ 
 
 });
