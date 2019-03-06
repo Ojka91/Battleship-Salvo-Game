@@ -58,14 +58,14 @@ var myApp = new Vue({
             this.gpURL = url.searchParams.get("gp");
             this.getData();
             this.checkStatus();
-            console.log(this.gpURL);
+            //console.log(this.gpURL);
 
         },
         timing(){
             if(myApp.data2.STATUS == "opponent placing ships" ||myApp.data2.STATUS ==  "opponent is placing salvoes" || 
             myApp.data2.STATUS ==  "waiting for opponent"){
                 setTimeout(myApp.checkStatus, 5000)
-                console.log("HY");
+                //console.log("HY");
             }
             
             else if (myApp.data2.STATUS == "placing salvoes" && myApp.data.STATUS=="opponent is placing salvoes" ||myApp.data2.STATUS == "placing ships"
@@ -85,7 +85,7 @@ var myApp = new Vue({
                 .then((json) => {
                     this.data2 = json;
                     this.timing();
-                    console.log("HEY2");
+                    //console.log("HEY2");
                 })
                 .catch((err) => {
                  console.log(err);
@@ -101,17 +101,17 @@ var myApp = new Vue({
                 .then((json) => {
 
                     this.data = json;
-                    console.log(this.data);
+                   // console.log(this.data);
                     myApp.salvoInfo = [];
                     myApp.init();
                     this.enemyInfo = Object.entries(myApp.data.sinkedEnemy);
-                    console.log("where is eemy")
+                   // console.log("where is eemy")
                     if(this.data.STATUS.WINNER != null){
-                        console.log(this.data.STATUS.WINNER +" eah");
+                       // console.log(this.data.STATUS.WINNER +" eah");
                         myApp.WINNER = this.data.STATUS.WINNER;
                     }
                     if(myApp.DRAW==null){
-                        console.log(this.data.STATUS.DRAW +" eah");
+                       // console.log(this.data.STATUS.DRAW +" eah");
                         myApp.DRAW = this.data.STATUS.DRAW;
                     }
 
@@ -119,7 +119,7 @@ var myApp = new Vue({
                 .catch((err) => {
                     //    text.append(data.message);
                     console.log(err);
-                    //alert("don't cheat bitch: " + err);
+                   // alert("don't cheat bitch: " + err);
                     // window.location.href = "games.html";
                 })
      
@@ -167,8 +167,8 @@ var myApp = new Vue({
                 this.ownerGame = this.data.gameplayers[0].player.email;
                 this.opponent = "waiting for an opponent";
             }
-            console.log("owner " + this.ownerGame);
-            console.log("opponent " + this.opponent);
+            //console.log("owner " + this.ownerGame);
+            //console.log("opponent " + this.opponent);
         },
 
         //activates and desactivates music
@@ -224,7 +224,7 @@ var myApp = new Vue({
 
         printShips: function () {
             if (this.data.shipsOwner != null) {
-                console.log("inside printing");
+                //console.log("inside printing");
                 for (var x = 0; x < this.data.shipsOwner.length; x++) {
                     for (var y = 0; y < this.data.shipsOwner[x].position.length; y++) {
                         document.getElementById(this.data.shipsOwner[x].position[y]).className = this.data.shipsOwner[x].type;
@@ -246,7 +246,7 @@ var myApp = new Vue({
                         if (letters != "" && numbers != "") {
                             var gif = document.getElementsByClassName("fireGif");
                             if (!document.getElementById(letters + numbers + "E").classList.contains("fired")) {
-                                console.log(document.getElementById(letters + numbers + "E").classList.contains("fired"))
+                               // console.log(document.getElementById(letters + numbers + "E").classList.contains("fired"))
                                 myApp.salvoPosition.push(letters + numbers);
     
                                 var img = document.createElement("img");
@@ -298,8 +298,8 @@ var myApp = new Vue({
                 return response.json();
 
             }).then(function (json) {
-                console.log('parsed json', json)
-                alert(json.error);
+               console.log('parsed json', json)
+                alert("you fired, well done");
                 location.reload();
               
 
@@ -326,7 +326,7 @@ var myApp = new Vue({
 
             if (this.data.salvoesOwner != null) {
 
-                console.log("inside print salvos");
+               // console.log("inside print salvos");
                 for (var x = 0; x < this.data.salvoesOwner.length; x++) {
                     for (var y = 0; y < this.data.salvoesOwner[x].position.length; y++) {
 
@@ -441,7 +441,7 @@ var myApp = new Vue({
                         if (numbers == "" || letters == "") {
                             myApp.shipCollision.push(1);
                         } else {
-                            console.log(numbers);
+                           // console.log(numbers);
                             if (document.getElementById(letters + (numbers + myApp.shipToPlace - 1)) != null && document.getElementById(letters + (numbers + x)).classList.contains("occupied")) {
                                 myApp.shipCollision.push(1);
                             } else {
@@ -451,7 +451,7 @@ var myApp = new Vue({
                     }
                     //check if its out of the grid and compare if the array has any 1
                     for (var x = 0; x < myApp.shipToPlace; x++) {
-                        console.log(numbers, numbers + x);
+                        //console.log(numbers, numbers + x);
 
                         if (numbers != "") {
                             //if everything correct print the color
@@ -540,7 +540,7 @@ var myApp = new Vue({
             if (myApp.shipPlacing == true) {
                 //position vertical ships (shipAlign = 0)
                 if (myApp.shipAlign == 0) {
-                    console.log(myApp.numbers[numbers + 1 + myApp.shipToPlace])
+                    //console.log(myApp.numbers[numbers + 1 + myApp.shipToPlace])
                     if (!myApp.shipCollision.includes(1)) {
                         var spv = []; //creates an array that will be pushed with ship info for ajax call
 
