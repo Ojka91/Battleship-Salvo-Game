@@ -166,3 +166,6 @@ td:nth-child(.middleinfo){
 width: 30px;
  }
 
+.color{
+  background-color: rgba(211, 211, 211, 0.705);
+}
